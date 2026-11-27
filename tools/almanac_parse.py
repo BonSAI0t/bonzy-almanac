@@ -94,7 +94,7 @@ for n,r in sorted(recipes.items(),key=lambda x:x[0].lower()):
     rec={'id':n,'name':T_REC.get(n) or T_ENT.get(n) or re.sub(r'(?<=[a-z])(?=[A-Z])',' ',n).replace('_',' '),
          'kind':r['kind'],'cat':r.get('category',''),'learn':(r.get('NeedToBeLearn','').lower()=='true'),
          'skill':sklist(r.get('SkillRequired')),'any':sklist(r.get('AutoLearnAny')),'all':sklist(r.get('AutoLearnAll')),
-         'rlvl':r.get('ResearchSkillLevel',''),'rtag':'Cannot' if 'CannotBeResearched' in tags else ('Always' if 'CanAlwaysBeResearched' in tags else ''),
+         'rlvl':r.get('ResearchSkillLevel',''),'rany':lst(r.get('ResearchAny')),'rall':lst(r.get('ResearchAll')),'rtag':'Cannot' if 'CannotBeResearched' in tags else ('Always' if 'CanAlwaysBeResearched' in tags else ''),
          'rItems':sorted(research.get(n,())),'rOut':[] if 'CannotBeResearched' in tags else sorted({o[1].replace('Base.','') for o in outs}),
          'books':sorted(books),'meta':r.get('MetaRecipe','').replace('base:',''),
          'in':r['in'],'out':outs,'file':r['file'],'time':r.get('time',''),'station':r.get('Tags','')}
