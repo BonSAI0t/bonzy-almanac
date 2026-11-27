@@ -134,6 +134,7 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 .seasons tbody tr:last-child td{border-bottom:0}
 .mc{display:block;height:18px;border-radius:3px;background:var(--chip)}
 .mc.sow{background:#7FB069}.mc.best{background:#2F8F4E}.mc.risk{background:#D9A441}.mc.bad{background:#B5483A}
+.pill.mpill.best{background:#2F8F4E;color:#fff}.pill.mpill.sow{background:#7FB069;color:#14200f}.pill.mpill.risk{background:#D9A441;color:#2a1d05}.pill.mpill.bad{background:#B5483A;color:#fff}
 .mc.now{outline:2px solid var(--ink);outline-offset:1px}
 .cropname{font-weight:600}
 .cropsub{font-size:11.5px;color:var(--muted)}
@@ -290,6 +291,7 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
       <label for="sq">Search crops<input id="sq" type="search" placeholder="carrot, wheat, seeds…" autocomplete="off"></label>
       <label for="sm">Plantable in (in-game month)<select id="sm"><option value="">Any month</option></select></label>
       <label for="sk2">Known by<select id="sk2"><option value="">Anyone</option></select></label>
+      <label class="check" for="sbad" style="grid-column:1/-1"><input id="sbad" type="checkbox"> Include bad and out-of-season months (you can still plant, but the crop gets cursed)</label>
     </div>
     <div id="seasonout" class="page"></div>
   </section>
@@ -548,17 +550,19 @@ async function checkLive(){
 const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function monthClass(c,m){if(c.best.includes(m))return 'best';if(c.risk.includes(m))return 'risk';if(c.sow.includes(m))return 'sow';if(c.bad.includes(m))return 'bad';return ''}
 const MLABEL={best:'Best month',sow:'Planting season',risk:'Poor month',bad:'Bad month',"":'Out of season'};
-function seasonSection(known,all,q,month){
-  const crops=(D.crops||[]).filter(c=>(all||known.has(c.recipe))&&(!month||c.sow.includes(month))&&(!q||(c.name+' '+c.produce+' '+c.seeds.join(' ')).toLowerCase().includes(q)));
+function seasonSection(known,all,q,month,incBad){
+  const crops=(D.crops||[]).filter(c=>(all||known.has(c.recipe))&&(!month||c.sow.includes(month)||!!incBad)&&(!q||(c.name+' '+c.produce+' '+c.seeds.join(' ')).toLowerCase().includes(q)));
   const nowM=new Date().getMonth()+1;
   const legend=`<div class="lg">${['best','sow','risk','','bad'].map(k=>`<span><i class="mc ${k}"></i>${MLABEL[k]}</span>`).join('')}<span>Outlined: this month (real-world)</span></div>`;
   const sub=all?`${crops.length} crops`:`${crops.length} known from the start`;
-  if(!crops.length){if(all||month)return `<section class="sect"><h2>Growing seasons<small>${sub}</small></h2><p class="note">No crops match. Clear the search or pick another month.</p></section>`;
+  if(!crops.length){if(all||month)return `<section class="sect"><h2>Growing seasons<small>${sub}</small></h2><p class="note">${month&&!incBad&&!q?`Nothing is in planting season in ${MONTHS[month-1]}. Tick "Include bad and out-of-season months" to see what you could still plant (it gets cursed).`:'No crops match. Clear the search or pick another month.'}</p></section>`;
   return `<section class="sect"><h2>Growing seasons<small>${sub}</small></h2><p class="note">This build doesn't start with any growing-season knowledge. Tick "Show all crops' growing seasons" to see them all, or read the seed packet / farming magazine in game.</p></section>`;}
+  if(month){const RANK={best:0,sow:1,risk:2,'':3,bad:4};crops.sort((a,b)=>RANK[monthClass(a,month)]-RANK[monthClass(b,month)]||a.name.localeCompare(b.name))}
   const rows=crops.map(c=>{
+    const mk=month?monthClass(c,month):null;
     const how=[];const src=known.get(c.recipe);if(src)how.push('Known from '+[...src].join(', '));
     const bk=c.books.filter(b=>!/_Empty$/.test(b));if(bk.length)how.push('Learn from: '+bk.map(INAME).join(', '));
-    return `<tr><td><div class="cropname">${hl(c.name,q)}${c.cold?' <span class="pill" title="Cold hardy">Cold hardy</span>':''}</div>${how.length?`<div class="cropsub">${esc(how.join(' · '))}</div>`:''}</td>${MONTHS.map((n,i)=>{const k=monthClass(c,i+1);return `<td class="m"><i class="mc ${k}${i+1===nowM?' now':''}" title="${n}: ${MLABEL[k]}"></i></td>`}).join('')}</tr>`}).join('');
+    return `<tr><td><div class="cropname">${hl(c.name,q)}${mk!==null?` <span class="pill mpill ${mk||'out'}">${MONTHS[month-1]}: ${MLABEL[mk]}</span>`:''}${c.cold?' <span class="pill" title="Cold hardy">Cold hardy</span>':''}</div>${how.length?`<div class="cropsub">${esc(how.join(' · '))}</div>`:''}</td>${MONTHS.map((n,i)=>{const k=monthClass(c,i+1);return `<td class="m"><i class="mc ${k}${i+1===nowM?' now':''}" title="${n}: ${MLABEL[k]}"></i></td>`}).join('')}</tr>`}).join('');
   return `<section class="sect"><h2>Growing seasons<small>${sub}</small></h2>${legend}<div class="seasons"><table><thead><tr><th>Crop</th>${MONTHS.map(m=>`<th class="m">${m}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div><p class="note">Planting outside the season curses the crop. Poor months give a skill-based chance of a curse, best months a chance of bonus yield (only with the Plant Growing Seasons sandbox option on). Months are in-game months.</p></section>`;
 }
 
@@ -594,9 +598,9 @@ function renderSeasons(){
   const q=$('#sq').value.trim().toLowerCase(),m=+$('#sm').value||0,who=$('#sk2').value;
   const known=new Map();
   SEASON_SRC.forEach((set,id)=>{if(!who||set.has(who))known.set(id,new Set(who?[who]:[...set]))});
-  $('#seasonout').innerHTML=seasonSection(known,!who,q,m);
+  $('#seasonout').innerHTML=seasonSection(known,!who,q,m,$('#sbad').checked);
 }
-['sq','sm','sk2'].forEach(id=>$('#'+id).addEventListener('input',renderSeasons));
+['sq','sm','sk2','sbad'].forEach(id=>$('#'+id).addEventListener('input',renderSeasons));
 /* ---------- routing ---------- */
 const PAGES=['recipes','build','seasons','metal','credits'];
 function route(){
@@ -606,7 +610,7 @@ function route(){
 /* ---------- home: clicking the book resets everything ---------- */
 function resetAll(){
   ['rf','bf','build'].forEach(k=>{try{localStorage.removeItem('bz_'+k)}catch(e){}});
-  ['q','lvl','bq','tq','mq','sq'].forEach(id=>{$('#'+id).value=''});$('#sm').value='';$('#sk2').value='';
+  ['q','lvl','bq','tq','mq','sq'].forEach(id=>{$('#'+id).value=''});$('#sm').value='';$('#sk2').value='';$('#sbad').checked=false;
   $('#skill').value='';$('#via').value='';$('#all').checked=false;
   $('#bsort').value='name';['bnow','ball','bcrops'].forEach(id=>{$('#'+id).checked=false});
   $('#prof').value='unemployed';chosen.clear();shown=60;$('#bname').value='';$('#bimport').value='';$('#bmsg').textContent='';
