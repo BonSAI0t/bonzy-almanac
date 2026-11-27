@@ -35,6 +35,8 @@ nav.tabs a[aria-current="page"]{color:var(--ink);background:var(--panel);border-
 nav.tabs a:focus-visible{outline:2px solid var(--accent)}
 .controls{display:grid;grid-template-columns:2fr 1fr 90px 1fr;gap:10px;background:var(--panel);border:1px solid var(--line);padding:12px;border-radius:6px;position:sticky;top:env(safe-area-inset-top,0px);z-index:2}
 .controls>*{min-width:0}
+.lblrow{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.controls label.check.mini{font-size:11.5px;color:var(--muted);gap:4px}
 .controls label,.lbl{display:grid;gap:3px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .controls label.check,.check{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink);text-transform:none;letter-spacing:0}
 .check input{width:auto}
@@ -111,7 +113,8 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 .theme button+button{border-left:1px solid var(--line)}
 .theme button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 .legend{display:grid;gap:4px;font-size:13px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 12px;margin:0}
-.legend p{margin:0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.legend p{margin:0}
+.legend p>span{vertical-align:middle;margin-right:4px}
 .legend img{width:18px;height:18px;image-rendering:pixelated}
 .legend .cav{color:var(--warn)}
 .hdr-r{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -319,11 +322,10 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
   </section>
 
   <section id="page-seasons" class="page" hidden>
-    <div class="controls" style="grid-template-columns:2fr 1fr 1fr">
+    <div class="controls" style="grid-template-columns:1.5fr 1.3fr 1fr">
       <label for="sq">Search crops<input id="sq" type="search" placeholder="carrot, wheat, seeds…" autocomplete="off"></label>
-      <label for="sm">Plantable in (in-game month)<select id="sm"><option value="">Any month</option></select></label>
+      <div class="lbl"><span class="lblrow"><label for="sm">Plantable in (game month)</label><label class="check mini" for="sbad"><input id="sbad" type="checkbox"> + bad months</label></span><select id="sm" aria-label="Plantable in (in-game month)"><option value="">Any month</option></select></div>
       <label for="sk2">Known by<select id="sk2"><option value="">Anyone</option></select></label>
-      <label class="check" for="sbad" style="grid-column:1/-1"><input id="sbad" type="checkbox"> Include bad and out-of-season months (you can still plant, but the crop gets cursed)</label>
     </div>
     <div id="seasonout" class="page"></div>
   </section>
@@ -585,11 +587,11 @@ const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov',
 function monthClass(c,m){if(c.best.includes(m))return 'best';if(c.risk.includes(m))return 'risk';if(c.sow.includes(m))return 'sow';if(c.bad.includes(m))return 'bad';return ''}
 const MLABEL={best:'Best month',sow:'Planting season',risk:'Poor month',bad:'Bad month',"":'Out of season'};
 function seasonSection(known,all,q,month,incBad){
-  const crops=(D.crops||[]).filter(c=>(all||known.has(c.recipe))&&(!month||c.sow.includes(month)||!!incBad)&&(!q||(c.name+' '+c.produce+' '+c.seeds.join(' ')).toLowerCase().includes(q)));
+  const crops=(D.crops||[]).filter(c=>(all||known.has(c.recipe))&&(!month||c.sow.includes(month)||(!!incBad&&c.bad.includes(month)))&&(!q||(c.name+' '+c.produce+' '+c.seeds.join(' ')).toLowerCase().includes(q)));
   const nowM=new Date().getMonth()+1;
   const legend=`<div class="lg">${['best','sow','risk','','bad'].map(k=>`<span><i class="mc ${k}"></i>${MLABEL[k]}</span>`).join('')}<span>Outlined: this month (real-world)</span></div>`;
   const sub=all?`${crops.length} crops`:`${crops.length} known from the start`;
-  if(!crops.length){if(all||month)return `<section class="sect"><h2>Growing seasons<small>${sub}</small></h2><p class="note">${month&&!incBad&&!q?`Nothing is in planting season in ${MONTHS[month-1]}. Tick "Include bad and out-of-season months" to see what you could still plant (it gets cursed).`:'No crops match. Clear the search or pick another month.'}</p></section>`;
+  if(!crops.length){if(all||month)return `<section class="sect"><h2>Growing seasons<small>${sub}</small></h2><p class="note">${month&&!incBad&&!q?`Nothing is in planting season in ${MONTHS[month-1]}. Tick "+ bad months" to include crops in their bad month.`:'No crops match. Clear the search or pick another month.'}</p></section>`;
   return `<section class="sect"><h2>Growing seasons<small>${sub}</small></h2><p class="note">This build doesn't start with any growing-season knowledge. Tick "Show all crops' growing seasons" to see them all, or read the seed packet / farming magazine in game.</p></section>`;}
   if(month){const RANK={best:0,sow:1,risk:2,'':3,bad:4};crops.sort((a,b)=>RANK[monthClass(a,month)]-RANK[monthClass(b,month)]||a.name.localeCompare(b.name))}
   const rows=crops.map(c=>{
