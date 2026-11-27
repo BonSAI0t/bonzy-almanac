@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>The Bonzy Almanac</title>
+<title>The Bonzy Almanac</title><script>try{var m=JSON.parse(localStorage.getItem("bz_theme"));if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme",m)}catch(e){}</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -101,6 +102,11 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 .rowtop{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
 .why{font-size:12px;color:var(--muted)}
 .btn{font:600 12.5px var(--body);background:transparent;color:var(--accent);border:1px solid var(--line);border-radius:4px;padding:5px 10px;cursor:pointer}
+.hdr{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px}
+.theme{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--panel)}
+.theme button{font:600 12px var(--body);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:transparent;border:0;padding:6px 10px;cursor:pointer}
+.theme button+button{border-left:1px solid var(--line)}
+.theme button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 .foot{border-top:1px solid var(--line);padding-top:14px;font-size:12.5px;color:var(--muted);display:grid;gap:6px;max-width:80ch}
 .foot a{color:var(--accent)}
 @media (max-width:520px){.grid{grid-template-columns:1fr}.grid dt{padding-top:6px}}
@@ -108,9 +114,14 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 </head>
 <body>
 <div class="wrap">
-  <header>
+  <header class="hdr">
+   <div>
     <h1>The Bonzy Almanac</h1>
     <p class="sub">Project Zomboid Build 42 recipes, read straight from the game's script files (export of 1 Nov 2026). Search what you can learn and how, or build a character and see everything they can make.</p>
+   </div>
+   <div class="theme" role="group" aria-label="Colour theme">
+    <button type="button" data-mode="auto">Auto</button><button type="button" data-mode="light">Light</button><button type="button" data-mode="dark">Dark</button>
+   </div>
   </header>
   <nav class="tabs" aria-label="Pages">
     <a href="#recipes" id="tab-recipes">Recipe search</a>
@@ -318,6 +329,17 @@ $('#prof').addEventListener('input',renderBuild);
 $('#tq').addEventListener('input',renderTraits);
 $('#traits').addEventListener('change',e=>{const t=e.target.dataset.t;if(!t)return;e.target.checked?chosen.add(t):chosen.delete(t);renderBuild()});
 $('#reset').addEventListener('click',()=>{chosen.clear();renderBuild()});
+
+/* ---------- theme ---------- */
+const HOST_THEME=document.documentElement.getAttribute('data-theme');
+function setTheme(m){
+  if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m);
+  else if(HOST_THEME)document.documentElement.setAttribute('data-theme',HOST_THEME);
+  else document.documentElement.removeAttribute('data-theme');
+  document.querySelectorAll('.theme button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===m)));
+  store.set('theme',m)}
+document.querySelector('.theme').addEventListener('click',e=>{const m=e.target.dataset&&e.target.dataset.mode;if(m)setTheme(m)});
+setTheme(store.get('theme','auto'));
 
 /* ---------- routing ---------- */
 function route(){const b=location.hash==='#build';
