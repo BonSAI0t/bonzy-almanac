@@ -163,6 +163,7 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 .mnote{margin:0;font-size:13.5px;max-width:80ch}
 .mchg{margin:0;font-size:13px;color:var(--warn);max-width:80ch}
 .mrec{display:grid;gap:4px;border-top:1px dashed var(--line);padding-top:8px}
+.mres{font-size:13px}.mlbl{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-right:4px}
 .blk{display:grid;gap:4px;font-size:13px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
 .blk ol{margin:4px 0 0;padding-left:20px;display:grid;gap:2px}
 .blk .st{color:var(--muted)}
@@ -576,7 +577,7 @@ const METAL=[
   {t:'Metalworking punch',ids:['Forge_Metalworking_Punch'],note:'Unlocks the pierced chunk for the smithing hammer, and the heading tool.'},
   {t:'Heading tool and metal tongs',ids:['Forge_Heading_Tool','Forge_Tongs']},
   {t:'Smithing hammer',ids:['Forge_Smithing_Hammer_Head'],note:'Needs a pierced chunk.'},
-  {t:'Nails',ids:['Forge_Nails','Forge_Nails_From_Piece','Forge_Nails_From_Wire'],note:'Nails block a lot: pottery wheel, hand press, butcher hook, tannin barrel, softening beam, bucket. Without them you can only make iron chunks from blooms.'},
+  {t:'Nails',ids:['Forge_Nails','Forge_Nails_From_Piece','Forge_Nails_From_Wire'],note:'You can forge nails yourself at the primitive forge once you have a smithing hammer, heading tool and tongs (Blacksmithing 1). Until then nails block a lot: pottery wheel, hand press, butcher hook, tannin barrel, softening beam, bucket.'},
  ]},
  {stage:'Pottery: crucibles and the anvil mold',steps:[
   {t:'Stone wheels for the pottery wheel',ids:['Make_Stone_Wheel','Make_Small_Stone_Wheel'],chg:'New: the pottery wheel now needs a stone wheel and a small stone wheel (Masonry 2 each).'},
@@ -610,8 +611,8 @@ const METAL=[
 const BLOCKERS=[
   ['Iron ore isn\'t meant to spawn on the main map. Use the sandbox setting.','still true'],
   ['No smithing recipe for wire.','partly fixed: strip it from barbed wire'],
-  ['Nails block pottery.','still true (wheel, press)'],
-  ['Nails block access to hides.','still true (butcher hook, beam, barrel)'],
+  ['Nails block pottery.','until you forge your own at the primitive forge (Blacksmithing 1)'],
+  ['Nails block access to hides.','same: forge nails at the primitive forge'],
   ['Kilns need a modern lighter.','fixed: any fire starter'],
   ['Levelling knapping is slow.',''],
   ['Growing hemp is likely impossible.','forage dogbane instead'],
@@ -635,7 +636,7 @@ function renderMetal(){
     if(!steps.length)return '';
     return `<section class="mstage"><h2><span class="mnum">${si+1}</span>${esc(st.stage)}</h2>${steps.map(s=>{n++;
       const rs=s.ids.map(i=>BYID[i]).filter(Boolean);
-      return `<div class="mstep"><h3>${hl(s.t,q)}</h3>${s.note?`<p class="mnote">${esc(s.note)}</p>`:''}${s.chg?`<p class="mchg"><b>Changed since 42.8.1:</b> ${esc(s.chg)}</p>`:''}${rs.map(r=>`<div class="mrec"><div class="rowtop"><span class="name">${hl(r.name,q)}</span><span class="id">${esc(r.id)}</span>${r.skill.filter(x=>x[1]>0).map(x=>skChip(x)).join(' ')||'<span class="sk met">No skill needed</span>'}${r.station&&/Forge|Furnace|Kiln|Press|Wheel|Loom|Scutch|Tan|Dry|Weav|Charcoal/i.test(r.station)?`<span class="pill">at ${esc(r.station.split(';').filter(x=>!/InHandCraft|AnySurfaceCraft|CanBeDoneFromFloor|Outdoors/.test(x)).join(' / ').replace(/([a-z])([A-Z])/g,'$1 $2'))}</span>`:''}</div><div>${learnInfo(r)}</div>${compBlock(r)}</div>`).join('')}</div>`}).join('')}</section>`}).join('')||'<div class="empty">Nothing matches. Clear the filter.</div>';
+      return `<div class="mstep"><h3>${hl(s.t,q)}</h3>${s.note?`<p class="mnote">${esc(s.note)}</p>`:''}${s.chg?`<p class="mchg"><b>Changed since 42.8.1:</b> ${esc(s.chg)}</p>`:''}${rs.map(r=>`<div class="mrec"><div class="rowtop"><span class="name">${hl(r.name,q)}</span><span class="id">${esc(r.id)}</span>${r.skill.filter(x=>x[1]>0).map(x=>skChip(x)).join(' ')||'<span class="sk met">No skill needed</span>'}${r.station&&/Forge|Furnace|Kiln|Press|Wheel|Loom|Scutch|Tan|Dry|Weav|Charcoal/i.test(r.station)?`<span class="pill">at ${esc(r.station.split(';').filter(x=>!/InHandCraft|AnySurfaceCraft|CanBeDoneFromFloor|Outdoors/.test(x)).join(' / ').replace(/([a-z])([A-Z])/g,'$1 $2'))}</span>`:''}</div><div>${learnInfo(r)}</div>${(r.learn||r.rtag)&&r.rtag!=='Cannot'&&(r.rItems.length||r.rOut.length)?`<div class="mres"><span class="mlbl">Research from</span> ${namesList([...new Set(r.rItems.concat(r.rOut))],q,INAME,8)}</div>`:''}${compBlock(r)}</div>`).join('')}</div>`}).join('')}</section>`}).join('')||'<div class="empty">Nothing matches. Clear the filter.</div>';
 }
 
 $('#mq').addEventListener('input',renderMetal);
