@@ -23,27 +23,30 @@
   --accent:#9DBE6A; --accent-ink:#141813; --warn:#E08A6A; --chip:#2A312A; --ok:#8FD0A5; --okbg:#1F3326; --hit:#4A4023; --neg:#E49A86; --negbg:#3A2420;}
 [hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--body);padding-inline:16px;padding-block:20px 48px}
-.wrap{max-width:1100px;margin:0 auto;display:grid;gap:18px}
-.page{display:grid;gap:14px;min-width:0}
+.wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.page{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;min-width:0}
 h1{font:700 2.2rem/1 var(--display);letter-spacing:.01em;margin:0;text-transform:uppercase}
 h2{font:700 1.35rem/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0}
 .sub{color:var(--muted);max-width:70ch;margin:6px 0 0}
-nav.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line)}
+nav.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+nav.tabs a{white-space:nowrap}
 nav.tabs a{font:700 1.05rem var(--display);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-decoration:none;padding:8px 14px;border:2px solid transparent;border-bottom:0;border-radius:6px 6px 0 0;margin-bottom:-2px}
 nav.tabs a[aria-current="page"]{color:var(--ink);background:var(--panel);border-color:var(--line);border-bottom:2px solid var(--panel)}
 nav.tabs a:focus-visible{outline:2px solid var(--accent)}
 .controls{display:grid;grid-template-columns:2fr 1fr 90px 1fr;gap:10px;background:var(--panel);border:1px solid var(--line);padding:12px;border-radius:6px;position:sticky;top:env(safe-area-inset-top,0px);z-index:2}
+.controls>*{min-width:0}
 .controls label,.lbl{display:grid;gap:3px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .controls label.check,.check{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink);text-transform:none;letter-spacing:0}
 .check input{width:auto}
-input,select{font:14px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:7px 8px;width:100%;box-sizing:border-box}
+input,select{min-width:0;font:14px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:7px 8px;width:100%;box-sizing:border-box}
 input:focus,select:focus,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 @media (max-width:700px){.controls{grid-template-columns:1fr 1fr}.controls label:first-child{grid-column:1/-1}}
 .stats{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
 .stats b{color:var(--ink);font-family:var(--mono);font-weight:500}
 .note{font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding-left:10px;max-width:80ch;margin:0}
-.list{display:grid;gap:8px}
-.r{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px;display:grid;gap:6px}
+.list{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;overflow-x:clip}
+.r{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px;display:grid;gap:6px;grid-template-columns:minmax(0,1fr)}
+.row,.mstep,.mrec{grid-template-columns:minmax(0,1fr)}
 .r.have{border-color:var(--ok)}
 .top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
 .name{font:600 15px var(--body)}
@@ -52,7 +55,7 @@ input:focus,select:focus,button:focus-visible,summary:focus-visible{outline:2px 
 .pill{font:600 11px var(--body);text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:999px;background:var(--chip);color:var(--muted)}
 .pill.ok{background:var(--okbg);color:var(--ok)}
 .pill.no{color:var(--warn)}
-.grid{display:grid;grid-template-columns:130px 1fr;gap:3px 12px;font-size:13px;margin:0}
+.grid{display:grid;grid-template-columns:130px minmax(0,1fr);gap:3px 12px;font-size:13px;margin:0}
 .grid dt{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
 .grid dd{margin:0;word-break:break-word}
 .sk{font-family:var(--mono);font-size:12.5px;background:var(--chip);padding:1px 6px;border-radius:3px;white-space:nowrap}
@@ -123,8 +126,9 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 .twitch .live-lbl{font:700 10.5px var(--body);color:#fff;background:#2EC25B;border-radius:3px;padding:1px 5px}
 @keyframes pulse{70%{box-shadow:0 0 0 6px rgba(46,194,91,0)}100%{box-shadow:0 0 0 0 rgba(46,194,91,0)}}
 @media (prefers-reduced-motion:reduce){.twitch .dot.live{animation:none}}
-.brand{flex:1 1 420px;min-width:0}
-.hdr-r{flex:none}
+.brand{flex:1 1 280px;min-width:0}
+.brand>div{min-width:0}
+.hdr-r{flex:0 1 auto;min-width:0}
 .twitch .live-lbl.off{visibility:hidden}
 .seasons{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:6px}
 .seasons table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
@@ -196,9 +200,37 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 .trait.neg span:nth-child(2){color:var(--neg)}
 .trait.pos .cost{color:var(--ok)}
 .trait.neg .cost{color:var(--neg)}
+.treewrap{position:relative;overflow-x:auto;padding-bottom:8px;margin-inline:calc((100% - min(100vw - 56px, 1680px)) / 2)}
+.tree{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:240px;gap:36px;align-items:start;padding:4px 4px 4px 22px;width:max-content}
+#treesvg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
+#treesvg .edge{fill:none;stroke:var(--line);stroke-width:1.6}
+#treesvg .edge.hot{stroke:var(--accent);stroke-width:2.6}
+#treesvg .edge.cold{opacity:.25}
+.gcol{display:grid;gap:10px;position:relative;z-index:1}
+.ghead{display:flex;gap:8px;align-items:flex-start;background:var(--bg);border-bottom:2px solid var(--accent);padding-bottom:6px;min-height:150px}
+.ghead b{font:700 17px var(--display);text-transform:uppercase;letter-spacing:.02em}
+.ghead p{margin:3px 0 0;font-size:12px;color:var(--muted)}
+.ghead .gblk{color:var(--warn)}
+.ghead .gblk b{font:600 12px var(--body);text-transform:none;letter-spacing:0}
+.tn{display:grid;gap:4px;text-align:left;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:8px 10px;font:13px var(--body);color:var(--ink);cursor:pointer;transition:opacity .15s,border-color .15s}
+.tn:hover{border-color:var(--accent)}
+.tn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tn .tt{font-weight:600}
+.tn .tm{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.tn .tm .sk{font-size:11.5px}
+.tn .tm .pill{font-size:10px;padding:1px 5px}
+.tn .tdeps{font-size:11px;color:var(--muted)}
+.tn.sel{box-shadow:0 0 0 2px var(--accent);border-left-color:var(--accent)}
+.tn.anc{border-left-color:#D9A441}
+.tn.des{border-left-color:#7FB069}
+.tn.fade,.tn.dim{opacity:.35}
+@media (prefers-reduced-motion:reduce){.tn{transition:none}}
+@media (max-width:820px){.tree{grid-auto-flow:row;grid-auto-columns:auto;width:auto;padding-left:4px}#treesvg{display:none}.ghead{min-height:0}}
+#treedetail{scroll-margin-top:12px}
+#treedetail a{color:var(--accent)}
 .foot{border-top:1px solid var(--line);padding-top:14px;font-size:12.5px;color:var(--muted);display:grid;gap:6px;max-width:80ch}
 .foot a{color:var(--accent)}
-@media (max-width:520px){.grid{grid-template-columns:1fr}.grid dt{padding-top:6px}}
+@media (max-width:520px){.grid{grid-template-columns:minmax(0,1fr)}.grid dt{padding-top:6px}}
 </style>
 </head>
 <body>
@@ -299,10 +331,12 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
   <section id="page-metal" class="page" hidden>
     <div class="mhead">
       <p class="note">The route from nothing to an advanced forge, based on <b>Retanaru</b>'s Build 42.8.1 Metalworking Tech Tree and his video guide <a href="https://www.youtube.com/watch?v=MElOC7Krygc" target="_blank" rel="noopener">From Stone To Steel In B42.8.1</a> (<a href="https://www.twitch.tv/retanaru" target="_blank" rel="noopener">twitch.tv/retanaru</a> · <a href="https://www.youtube.com/@Retanaru" target="_blank" rel="noopener">youtube.com/@Retanaru</a>). Recipes, skills and components below are read live from the current game files (1 Nov 2026), and anything that's changed since 42.8.1 is flagged. It assumes you craft most things; looting lets you skip a lot. Some recipes may have easier alternatives now.</p>
-      <label class="lbl" for="mq" style="min-width:240px">Filter steps<input id="mq" type="search" placeholder="nails, crucible, leather…" autocomplete="off"></label>
+      <label class="lbl" for="mq" style="min-width:240px">Filter steps<input id="mq" type="search" placeholder="nails, crucible, leather… (dims the rest)" autocomplete="off"></label>
     </div>
     <div class="blk"><b>Progression blockers</b> (from 42.8.1, with current status)<ol id="blockers"></ol></div>
-    <div id="metalout" class="page"></div>
+    <p class="note">Each column is a <b>gate</b>: a milestone you need before the next one opens up. Inside a gate the order is flexible. Click a box to see its recipes and light up what it needs and what it unlocks.</p>
+    <div class="treewrap" id="treewrap"><svg id="treesvg" aria-hidden="true"></svg><div class="tree" id="tree"></div></div>
+    <div id="treedetail"></div>
   </section>
 
   <section id="page-credits" class="page" hidden>
@@ -703,16 +737,105 @@ function learnInfo(r){
   if(r.granted.length)parts.push('start with '+r.granted.join(', '));
   return '<span class="pill">Must be learned</span> <span class="why">'+parts.join(' · ')+'</span>';
 }
+/* ---------- metalworking tech tree (gates + dependencies) ---------- */
+const GATES=[
+ {t:'Basic tools',goal:'Get Maintenance 1 and make primitive tools.',block:'Maintenance 0 can\'t make any basic tool.'},
+ {t:'Primitive forge running',goal:'Stone anvil, clay cement, charcoal and some iron at a primitive forge.',block:'Iron. Ore doesn\'t spawn on the main map: loot metal, or get lucky foraging ore.'},
+ {t:'Nails',goal:'Forge your own smithing tools, then nails. Everything after this needs nails.',block:'Blacksmithing 1 and learning the forge recipes (magazine, research, or auto-learn at 3). Looted nails skip this gate.'},
+ {t:'Pottery and kiln',goal:'Pottery wheel, crucibles and an advanced kiln.',block:'Nails (wheel), Masonry 2 (stone wheels), a Sack of Sand (crucible).'},
+ {t:'Furnace, anvil and leather',goal:'Cast a real anvil and tan leather. Two branches you can do in either order.',block:'32 crucibles of molten iron for the anvil. A medium animal and nails for leather.'},
+ {t:'Advanced forge and steel',goal:'Bucket, bellows and anvil come together. Dome kiln for steel.',block:'Wire (strip barbed wire), tanned medium leather for the bellows.'},
+];
+const NODES=[
+ // gate 1
+ {id:'maint',g:0,t:'Maintenance 1',ids:[],note:"You can't make any of the basic tools at Maintenance 0. Grinding it from 0 is slow, so start with a trait or occupation that gives Maintenance or teaches the early recipes if you can."},
+ {id:'knap',g:0,t:'Knapped tools',deps:['maint'],ids:['MakeStoneChisel','MakeStoneBladeSaw'],note:'Forage sharp stones and flint. Knapping is slow to level.'},
+ {id:'carve',g:0,t:'Carved tools',deps:['maint'],ids:['CarveTrowel','CarveWoodenSpade','CarveBucket','MakeBoneSewingNeedle'],note:'Trowel for building, spade for the charcoal pile, bucket for cement, needle for sacks.',chg:'The wooden trowel no longer needs any Carving.'},
+ {id:'tongs0',g:0,t:'Simple wooden tongs',deps:['maint'],ids:['MakeCrudeWoodenTongs'],note:'Good enough for every early forge recipe.'},
+ {id:'masonry',g:0,t:'Level Masonry',sk:[],ids:['Make_Stones_from_Large_Stone','MakeStoneMaulHead','MakeStoneMaul'],note:'Smash large stones: 10 Masonry XP each, no skill needed, roughly 35 gets you going (tip from BonSAI0t).',loot:'A looted club hammer, sledgehammer or pickaxe skips the Knapping 5 maul head.'},
+ {id:'blocks',g:0,t:'Stone blocks',deps:['masonry','knap'],ids:['Make_Stone_Block_from_Stone'],note:'You need lots: 40 for the simple furnace, 30 for a forge, 40 for the dome kiln.',chg:'Only needs Masonry 1 now.'},
+ // gate 2
+ {id:'cement',g:1,t:'Clay cement (use grass)',deps:['carve'],ids:['MakeBucketOfClayCementFromGrass','MakeBucketOfClayCement'],note:'Use the grass version: 50 grass cuttings or hay. Save sand for crucibles.',chg:'Grass recipe exists now (tip from Retanaru).'},
+ {id:'charcoal',g:1,t:'Charcoal',deps:['carve'],ids:['Charcoal_Pit','MakeWoodCharcoal'],note:'Everything at the forge burns charcoal. The burning pile is the cheap early way.'},
+ {id:'anvil0',g:1,t:'Stone anvil',deps:['masonry'],ids:['Make_Stone_Anvil'],note:'Masonry 2.'},
+ {id:'pforge',g:1,t:'Primitive forge',deps:['cement','anvil0'],ids:['Forge_Primitive_Forge'],note:'Where all early smithing happens.'},
+ {id:'pfurnace',g:1,t:'Primitive furnace',deps:['cement'],ids:['Primitive_Furnace'],note:'Cheap (clay and stone). Smelts iron blooms, and smelts scrap once you have a crucible.'},
+ {id:'iron',g:1,t:'First iron',deps:['pfurnace','pforge','charcoal'],ids:['ExtractIronBloom','ExtractIronFromBloom'],note:"Bloom from iron ore in the primitive furnace, then hammer it into chunks at the forge.",loot:'Looted iron chunks, bar stock or scrap metal (cars) skip this.'},
+ // gate 3
+ {id:'bs1',g:2,t:'Grind Blacksmithing 1',deps:['iron','tongs0','charcoal','pforge'],ids:['ForgeSmallIronBand','Forge_Bar_Quarter_From_Chunk','Forge_Bar_Half','Pierce_Chunk'],note:"No learning needed. Make small iron bands (you'll want two for the wooden bucket) and bar stock until you hit 1."},
+ {id:'punch',g:2,t:'Metalworking punch',deps:['bs1'],ids:['Forge_Metalworking_Punch']},
+ {id:'heading',g:2,t:'Heading tool',deps:['punch'],ids:['Forge_Heading_Tool']},
+ {id:'mtongs',g:2,t:'Metal tongs',deps:['punch','heading'],ids:['Forge_Tongs']},
+ {id:'shammer',g:2,t:'Smithing hammer',deps:['punch'],ids:['Forge_Smithing_Hammer_Head'],note:'Needs a pierced chunk.'},
+ {id:'nails',g:2,t:'Nails',deps:['shammer','heading','mtongs'],ids:['Forge_Nails','Forge_Nails_From_Piece','Forge_Nails_From_Wire'],note:'Forge them at the primitive forge. Nails unlock the pottery wheel, hand press, butcher hook, tannin barrel, softening beam, drying rack and bucket.',loot:'Nails are common loot. Finding a box skips this whole gate.'},
+ {id:'largehook',g:2,t:'Large hook',deps:['bs1'],ids:['Forge_Large_Hook'],note:'For the butcher hook.'},
+ // gate 4
+ {id:'wheels',g:3,t:'Stone wheels',deps:['masonry','knap'],ids:['Make_Stone_Wheel','Make_Small_Stone_Wheel'],chg:'New: the pottery wheel needs a stone wheel and a small stone wheel.'},
+ {id:'pwheel',g:3,t:'Pottery wheel',deps:['wheels','nails'],ids:['Pottery_Wheel']},
+ {id:'fibre',g:3,t:'Fibre and twine',ids:['CraftTwine','ScutchingBoard','MakeDullBoneKnife','ScutchFibre'],note:'Forage dogbane to skip growing hemp; it makes twine directly. Scutching is only for hemp/flax.'},
+ {id:'sack',g:3,t:'Sack of Sand',deps:['fibre','carve'],ids:['SimpleLoom','WeaveBurlap','SewSack'],note:'Weave burlap, sew a sack, fill it on a sand tile. Only the crucible needs sand.',loot:'Any looted sack works.'},
+ {id:'kiln',g:3,t:'Advanced kiln',deps:['carve'],ids:['Kiln_Large','Kiln_Small'],note:'Skip the primitive kiln: same cost, and only the advanced one fires the anvil mold.'},
+ {id:'crucible',g:3,t:'Crucibles',deps:['pwheel','sack','kiln'],ids:['MakeCeramicCrucible','MakeCeramicCrucibleSmall','FireCeramicCrucible'],chg:'Firing takes any fire starter now (matches, any lighter, firestarter, lit candle).'},
+ {id:'bowl',g:3,t:'Clay bowl',deps:['pwheel','kiln'],ids:['MakeClayBowl','FireClayBowl'],note:'For brain tanning.',loot:'Any looted bowl works.'},
+ // gate 5
+ {id:'sfurnace',g:4,t:'Simple furnace',deps:['blocks','cement'],ids:['Smelting_Furnace'],note:'40 stone blocks. Needed to cast the anvil.'},
+ {id:'smelt',g:4,t:'Iron at scale',deps:['crucible','pfurnace'],ids:['ExtractIronFromSmallItem','ExtractIronFromIronOre'],note:'Recycle scrap weapons and tools in a crucible. You need a lot of it for the anvil.'},
+ {id:'mold',g:4,t:'Anvil mold',deps:['nails','kiln'],ids:['MakeWoodenBlacksmithAnvilMold','Hand_Press','PressBlacksmithAnvilMold','Fire_ClayBlacksmithAnvilMold'],note:'Carpentry 2 wooden mold, hand press, press the clay mold, fire it in the advanced kiln.'},
+ {id:'castanvil',g:4,t:'Cast the blacksmith anvil',deps:['mold','smelt','sfurnace','mtongs'],ids:['CastBlacksmithAnvil'],note:'A ceramic mold, 10 charcoal and 32 crucibles of molten iron.',loot:'A looted blacksmith anvil skips this branch.'},
+ {id:'hook',g:4,t:'Butcher hook',deps:['largehook','nails'],ids:['ButcherHook'],chg:'Now needs a Large Hook, forged at the primitive forge.'},
+ {id:'flesh',g:4,t:'Flesh and fur removal',deps:['nails','knap'],ids:['CarveFleshingTool','Forge_Fleshing_Tool','SofteningBeam']},
+ {id:'tan',g:4,t:'Tanning',deps:['hook','flesh','bowl','nails'],ids:['CreateBrainTan','TanninBarrel','TanLeather'],note:'Large leather can be cut into medium, so a large animal works too.'},
+ {id:'dry',g:4,t:'Dry the leather',deps:['tan','nails'],ids:['DryingRackMedium','DryMediumLeather'],chg:'Drying now takes time on the rack (tip from Retanaru).'},
+ // gate 6
+ {id:'wire',g:5,t:'Wire',ids:['MakeWireFromBarbedWire'],chg:'Still no smithing recipe, but you can strip barbed wire with pliers.',loot:'Looted wire works.'},
+ {id:'wbucket',g:5,t:'Wooden bucket',deps:['nails','wire','bs1'],ids:['MakeWoodenBucket'],note:'Nails, wire and 2 small iron bands.'},
+ {id:'bellows',g:5,t:'Large bellows',deps:['dry','nails'],ids:['CarveMediumHandle','MakeLargeBellows'],note:'Needs tanned medium leather.'},
+ {id:'aforge',g:5,t:'Advanced forge',deps:['castanvil','wbucket','bellows','blocks','cement'],ids:['Advanced_Forge','Forge'],note:"Skip the simple forge: it isn't needed, and the advanced one only adds the bellows."},
+ {id:'afurnace',g:5,t:'Advanced furnace',deps:['bellows','blocks','cement'],ids:['Blast_Furnace']},
+ {id:'steel',g:5,t:'Steel (dome kiln + coke)',deps:['blocks','charcoal','cement'],ids:['Dome_Kiln','MakeCoke'],note:'Coke from the dome kiln turns iron into steel.'},
+];
+const NBY=Object.fromEntries(NODES.map(n=>[n.id,n]));
+NODES.forEach(n=>{n.deps=n.deps||[];n.kids=[]});NODES.forEach(n=>n.deps.forEach(d=>NBY[d].kids.push(n.id)));
+function closure(id,key){const out=new Set(),st=[id];while(st.length){const x=st.pop();NBY[x][key].forEach(y=>{if(!out.has(y)){out.add(y);st.push(y)}})}return out}
+let SEL=null;
+function nodeSkills(n){if(n.sk)return n.sk;const m={};n.ids.map(i=>BYID[i]).filter(Boolean).forEach(r=>r.skill.forEach(([s,l])=>{if(l>0)m[s]=Math.min(m[s]??99,l)}));return Object.entries(m)}
+function nodeLearn(n){return n.ids.map(i=>BYID[i]).filter(Boolean).some(r=>r.learn)}
 function renderMetal(){
   const q=$('#mq').value.trim().toLowerCase();
-  let n=0;
-  $('#metalout').innerHTML=METAL.map((st,si)=>{
-    const steps=st.steps.filter(s=>!q||(s.t+' '+(s.note||'')+' '+(s.chg||'')+' '+s.ids.map(i=>BYID[i]?BYID[i].hay:'').join(' ')).toLowerCase().includes(q));
-    if(!steps.length)return '';
-    return `<section class="mstage"><h2><span class="mnum">${si+1}</span>${esc(st.stage)}</h2>${steps.map(s=>{n++;
-      const rs=s.ids.map(i=>BYID[i]).filter(Boolean);
-      return `<div class="mstep"><h3>${hl(s.t,q)}</h3>${s.note?`<p class="mnote">${esc(s.note)}</p>`:''}${s.chg?`<p class="mchg"><b>Changed since 42.8.1:</b> ${esc(s.chg)}</p>`:''}${rs.map(r=>`<div class="mrec"><div class="rowtop"><span class="name">${hl(r.name,q)}</span><span class="id">${esc(r.id)}</span>${r.skill.filter(x=>x[1]>0).map(x=>skChip(x)).join(' ')||'<span class="sk met">No skill needed</span>'}${r.station&&/Forge|Furnace|Kiln|Press|Wheel|Loom|Scutch|Tan|Dry|Weav|Charcoal/i.test(r.station)?`<span class="pill">at ${esc(r.station.split(';').filter(x=>!/InHandCraft|AnySurfaceCraft|CanBeDoneFromFloor|Outdoors/.test(x)).join(' / ').replace(/([a-z])([A-Z])/g,'$1 $2'))}</span>`:''}</div><div>${learnInfo(r)}</div>${(r.learn||r.rtag)&&r.rtag!=='Cannot'&&(r.rItems.length||r.rOut.length)?`<div class="mres"><span class="mlbl">Research from</span> ${namesList([...new Set(r.rItems.concat(r.rOut))],q,INAME,8)}</div>`:''}${compBlock(r)}</div>`).join('')}</div>`}).join('')}</section>`}).join('')||'<div class="empty">Nothing matches. Clear the filter.</div>';
+  const match=n=>!q||(n.t+' '+(n.note||'')+' '+(n.chg||'')+' '+(n.loot||'')+' '+n.ids.map(i=>BYID[i]?BYID[i].hay:'').join(' ')).toLowerCase().includes(q);
+  const anc=SEL?closure(SEL,'deps'):null,des=SEL?closure(SEL,'kids'):null;
+  $('#tree').innerHTML=GATES.map((g,gi)=>`<div class="gcol"><div class="ghead"><span class="mnum">${gi+1}</span><div><b>${esc(g.t)}</b><p>${esc(g.goal)}</p><p class="gblk"><b>Gate:</b> ${esc(g.block)}</p></div></div>${NODES.filter(n=>n.g===gi).map(n=>{
+    const cls=['tn',match(n)?'':'dim',SEL===n.id?'sel':'',anc&&anc.has(n.id)?'anc':'',des&&des.has(n.id)?'des':'',SEL&&SEL!==n.id&&!anc.has(n.id)&&!des.has(n.id)?'fade':''].join(' ');
+    const sk=nodeSkills(n).map(([s,l])=>`<span class="sk">${esc(SKN(s))} ${l}</span>`).join(' ');
+    return `<button type="button" class="${cls}" data-node="${n.id}" id="tn-${n.id}"><span class="tt">${hl(n.t,q)}</span>${sk||n.ids.length?`<span class="tm">${sk||'<span class="sk met">No skill</span>'}${nodeLearn(n)?' <span class="pill">learn</span>':''}${n.loot?' <span class="pill ok">loot skip</span>':''}${n.chg?' <span class="pill no">changed</span>':''}</span>`:''}${n.deps.length?`<span class="tdeps">needs ${n.deps.map(d=>esc(NBY[d].t)).join(', ')}</span>`:''}</button>`}).join('')}</div>`).join('');
+  drawEdges(anc,des);
+  renderDetail();
 }
+function drawEdges(anc,des){
+  const wrap=$('#treewrap'),svg=$('#treesvg');if(!wrap||!svg)return;
+  if(window.matchMedia('(max-width:820px)').matches){svg.innerHTML='';return}
+  const W=$('#tree').scrollWidth,H=$('#tree').scrollHeight;svg.setAttribute('width',W);svg.setAttribute('height',H);svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const base=$('#tree').getBoundingClientRect();
+  const box=id=>{const r=$('#tn-'+id).getBoundingClientRect();return{l:r.left-base.left,r:r.right-base.left,t:r.top-base.top,b:r.bottom-base.top,cy:(r.top+r.bottom)/2-base.top}};
+  let p='';
+  NODES.forEach(n=>n.deps.forEach(d=>{
+    const a=box(d),b=box(n.id);let path;
+    if(NBY[d].g===n.g){const x=a.l-2,y1=a.cy,y2=b.cy,dx=-18;path=`M${x},${y1} C${x+dx},${y1} ${x+dx},${y2} ${b.l-2},${y2}`}
+    else{const x1=a.r,x2=b.l,mx=(x1+x2)/2;path=`M${x1},${a.cy} C${mx},${a.cy} ${mx},${b.cy} ${x2},${b.cy}`}
+    const inA=x=>x===SEL||anc.has(x),inD=x=>x===SEL||des.has(x);const hot=!!SEL&&((inA(n.id)&&anc.has(d))||(inD(d)&&des.has(n.id)));
+    p+=`<path d="${path}" class="edge${hot?' hot':''}${SEL&&!hot?' cold':''}"/>`}));
+  svg.innerHTML=p;
+}
+function renderDetail(){
+  const el=$('#treedetail');
+  if(!SEL){el.innerHTML='<p class="note">Click any box to see its recipes, components, how to learn them, and research items. Its requirements and what it unlocks light up in the tree.</p>';return}
+  const n=NBY[SEL],q='';
+  const rs=n.ids.map(i=>BYID[i]).filter(Boolean);
+  el.innerHTML=`<div class="mstep"><h3>${esc(n.t)} <button type="button" class="btn" id="tdclose" style="float:right">Close</button></h3>${n.note?`<p class="mnote">${esc(n.note)}</p>`:''}${n.loot?`<p class="mnote"><b>Loot shortcut:</b> ${esc(n.loot)}</p>`:''}${n.chg?`<p class="mchg"><b>Changed since 42.8.1:</b> ${esc(n.chg)}</p>`:''}${n.deps.length?`<p class="mnote"><b>Needs:</b> ${n.deps.map(d=>`<a href="#metal" data-go="${d}">${esc(NBY[d].t)}</a>`).join(', ')}</p>`:''}${n.kids.length?`<p class="mnote"><b>Unlocks:</b> ${n.kids.map(d=>`<a href="#metal" data-go="${d}">${esc(NBY[d].t)}</a>`).join(', ')}</p>`:''}${rs.map(r=>`<div class="mrec"><div class="rowtop"><span class="name">${esc(r.name)}</span><span class="id">${esc(r.id)}</span>${r.skill.filter(x=>x[1]>0).map(x=>skChip(x)).join(' ')||'<span class="sk met">No skill needed</span>'}${r.station&&/Forge|Furnace|Kiln|Press|Wheel|Loom|Scutch|Tan|Dry|Weav|Charcoal/i.test(r.station)?`<span class="pill">at ${esc(r.station.split(';').filter(x=>!/InHandCraft|AnySurfaceCraft|CanBeDoneFromFloor|Outdoors/.test(x)).join(' / ').replace(/([a-z])([A-Z])/g,'$1 $2'))}</span>`:''}</div><div>${learnInfo(r)}</div>${(r.learn||r.rtag)&&r.rtag!=='Cannot'&&(r.rItems.length||r.rOut.length)?`<div class="mres"><span class="mlbl">Research from</span> ${namesList([...new Set(r.rItems.concat(r.rOut))],q,INAME,8)}</div>`:''}${compBlock(r)}</div>`).join('')}</div>`;
+}
+$('#tree')&&$('#tree').addEventListener('click',e=>{const b=e.target.closest('[data-node]');if(!b)return;SEL=SEL===b.dataset.node?null:b.dataset.node;renderMetal();if(SEL&&window.matchMedia('(max-width:820px)').matches)$('#treedetail').scrollIntoView({behavior:'smooth',block:'start'})});
+$('#treedetail').addEventListener('click',e=>{if(e.target.id==='tdclose'){SEL=null;renderMetal();return}const g=e.target.dataset&&e.target.dataset.go;if(g){e.preventDefault();SEL=g;renderMetal();$('#tn-'+g).scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})}});
+window.addEventListener('resize',()=>{if(!$('#page-metal').hidden)drawEdges(SEL?closure(SEL,'deps'):null,SEL?closure(SEL,'kids'):null)});
 
 $('#mq').addEventListener('input',renderMetal);
 $('#blockers').innerHTML=BLOCKERS.map(([a,b])=>`<li>${esc(a)}${b?` <span class="st">(${esc(b)})</span>`:''}</li>`).join('');
