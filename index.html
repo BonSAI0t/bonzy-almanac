@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>The Bonzy Almanac</title><script>try{var m=JSON.parse(localStorage.getItem("bz_theme"));if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme",m)}catch(e){}</script>
+<title>The Bonzy Almanac</title><link rel="icon" type="image/png" href="logo/bonzy-book-35.png">
+<link rel="apple-touch-icon" href="logo/bonzy-book-140.png">
+<script>try{var m=JSON.parse(localStorage.getItem("bz_theme"));if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme",m)}catch(e){}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -116,6 +118,13 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 .twitch:hover{border-color:var(--accent)}
 .twitch:focus-visible{outline:2px solid var(--accent)}
 .twitch .dot{width:8px;height:8px;border-radius:50%;background:#9146FF}
+.brand{display:flex;gap:14px;align-items:center}
+.brand img{width:70px;height:70px;image-rendering:pixelated;flex:none}
+@media (max-width:520px){.brand img{width:52px;height:52px}}
+.twitch .dot.live{background:#2EC25B;box-shadow:0 0 0 0 rgba(46,194,91,.6);animation:pulse 1.6s infinite}
+.twitch .live-lbl{font:700 10.5px var(--body);color:#fff;background:#2EC25B;border-radius:3px;padding:1px 5px}
+@keyframes pulse{70%{box-shadow:0 0 0 6px rgba(46,194,91,0)}100%{box-shadow:0 0 0 0 rgba(46,194,91,0)}}
+@media (prefers-reduced-motion:reduce){.twitch .dot.live{animation:none}}
 .foot{border-top:1px solid var(--line);padding-top:14px;font-size:12.5px;color:var(--muted);display:grid;gap:6px;max-width:80ch}
 .foot a{color:var(--accent)}
 @media (max-width:520px){.grid{grid-template-columns:1fr}.grid dt{padding-top:6px}}
@@ -124,12 +133,15 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 <body>
 <div class="wrap">
   <header class="hdr">
-   <div>
+   <div class="brand">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAYAAACuwEE+AAAEIElEQVR4Xu3coWtVYRzG8SkGg8iQJRmyIDKGiBgMYl6QJTGZDP4BRoPRYBKjyWgSg4jhRoNhQUSGLBiGXExjDJNNMb7PlfPw8L733HPPvp/m7tll9/jwnoff+3JXVgAAAAAAAAAAAAAAAIDxODWej9LG2vn1P8k7Hf6anqh7eDq5OQCBQYTAIHKinr//pB3l8fakuKHPJtvRDR5bx2GFQYTAIEJgEBldh6ntKOrgYFr8aGNjvfMGj73jsMIgQmAQITCILF2H6bujaIdxxt5xWGEQITCIEBhEBtdh+u4otXOXvjvOovemWGEQITCIEBhEFt5hXGfR8yhp53j4fC+6Ic6Tu6vFJW7uUttxhrY3xQqDCIFBhMAgMvcO4zqK0s6SnkfR65++Pe68ITs3P3S+/n73Tufr2mmUdpzaTqP67jisMIgQGEQIDCJnoqv/o7ajOLUdIHV9/b78SncH+jJ9XVyvv1/bwVzncXMq7Tju/8vtVbHCIEJgECEwiNg5jHvmKfdMddwzO+XmMCk3t5ntQJl5700pN8fRTsMKgwiBQYTAIDLTYVxncR3FzR1adxTHdRjXSWr3klprPZf6cfS1+BM/Hb4o/k2HQRUeSYgQGETsXtKttUfFG6YdxHUalb5/a633klKt5zDaUdSrj7eLH21ulR1GscIgQmAQITCI2A5z+Pt7+YZH3e9/6cK1zgtcR2n9DHdm5yx1Z4Cd1p8v7Sj7e5/dn9iJFQYRAoMIgUHE7iVdObcTveHa2cud17uO49TupegZ3Fo6txl6R9m8eqPzI29u3SteZy8JVXgkIUJgELFzmIurZSf5eSxzGTEzt1GN5zhpZxjamdt0jqJ0ruI6Snq9YoVBhMAgQmAQsR1GO4t2GtW647i5Teu9qbQTpbSz6HkU11GUdha3V+Q6jsMKgwiBQYTAIGI7TNpRmnecxnMbVbs3pdK5Sm3nqJ2rpFhhECEwiBAYROIO47g5TNpx+t6bctKOotLOUdtxlJ53SbHCIEJgECEwiNgzvU565tdJz9846Rnj1h1lpkPImdpFdxT3vbyKFQYRAoMIgUHEfk+vct+Bp2o7Tjq3SWnHcedTVO1cpfZ8ipurpB3FYYVBhMAgQmAQiTuM4zpObadRtR3n3e6Dzo+UzknS6x3XUVTrzqJYYRAhMIgQGESadxjlOo3qu+O8nJTfU9v3XGVoHcVhhUGEwCBCYBCZe4dxhtZxXKdRbi9o2TqKwwqDCIFBhMAgsvAO48y74+heUjqHmek08j23at57PfPGCoMIgUGEwCAy+A7juI7j9qbceZi0o4ytsyhWGEQIDCIEBpGl7zDKdRq1/+1N8SM3Rxl7R3FYYRAhMIgQGERG12GctOMs+95Pa6wwiBAYRAgMAAAAAAAAAAAAAAAAAAAAACyRv1fCrZxn40G3AAAAAElFTkSuQmCC" alt="" width="70" height="70">
+    <div>
     <h1>The Bonzy Almanac</h1>
     <p class="sub">Project Zomboid Build 42 recipes, read straight from the game's script files (export of 1 Nov 2026). Search what you can learn and how, or build a character and see everything they can make.</p>
+    </div>
    </div>
    <div class="hdr-r">
-   <a class="twitch" href="https://www.twitch.tv/sogoodbonzy" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>twitch.tv/sogoodbonzy</a>
+   <a class="twitch" id="twitch" href="https://www.twitch.tv/sogoodbonzy" target="_blank" rel="noopener" title="Offline"><span class="dot" aria-hidden="true"></span>twitch.tv/sogoodbonzy<span class="live-lbl" hidden>LIVE</span></a>
    <div class="theme" role="group" aria-label="Colour theme">
     <button type="button" data-mode="auto">Auto</button><button type="button" data-mode="light">Light</button><button type="button" data-mode="dark">Dark</button>
    </div>
@@ -357,6 +369,19 @@ function setTheme(m){
   store.set('theme',m)}
 document.querySelector('.theme').addEventListener('click',e=>{const m=e.target.dataset&&e.target.dataset.mode;if(m)setTheme(m)});
 setTheme(store.get('theme','auto'));
+
+/* ---------- twitch live dot ---------- */
+async function checkLive(){
+  const a=$('#twitch');if(!a)return;
+  let live=false;
+  try{const r=await fetch('https://decapi.me/twitch/uptime/sogoodbonzy',{cache:'no-store'});
+    if(r.ok){const txt=(await r.text()).trim();live=/^\d+\s+(second|minute|hour|day)s?\b/i.test(txt)&&!/offline/i.test(txt);}
+  }catch(e){}
+  a.querySelector('.dot').classList.toggle('live',live);
+  a.querySelector('.live-lbl').hidden=!live;
+  a.title=live?'Live now on Twitch':'Offline';
+}
+checkLive();setInterval(checkLive,120000);
 
 /* ---------- routing ---------- */
 function route(){const b=location.hash==='#build';
