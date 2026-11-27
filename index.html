@@ -107,6 +107,10 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 .theme button{font:600 12px var(--body);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:transparent;border:0;padding:6px 10px;cursor:pointer}
 .theme button+button{border-left:1px solid var(--line)}
 .theme button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.legend{display:grid;gap:4px;font-size:13px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 12px;margin:0}
+.legend p{margin:0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.legend img{width:18px;height:18px;image-rendering:pixelated}
+.legend .cav{color:var(--warn)}
 .foot{border-top:1px solid var(--line);padding-top:14px;font-size:12.5px;color:var(--muted);display:grid;gap:6px;max-width:80ch}
 .foot a{color:var(--accent)}
 @media (max-width:520px){.grid{grid-template-columns:1fr}.grid dt{padding-top:6px}}
@@ -123,6 +127,10 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
     <button type="button" data-mode="auto">Auto</button><button type="button" data-mode="light">Light</button><button type="button" data-mode="dark">Dark</button>
    </div>
   </header>
+  <div class="legend">
+    <p><span style="display:inline-flex;align-items:center"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASBAMAAACk4JNkAAAAFVBMVEUAAAD/9Oz/7p/At6XPhlZ0dHQZGRlIwoQrAAAAAXRSTlMAQObYZgAAAEtJREFUeNpjAIK0tDQGMGBTUlJKALOSgCw1sJCTUpqSSgJYEshSIsxC6ECYwpACFHOD2AFkJaDZxmZsbAxlCQoKY4iFGocCWQiXAgBPuxRVdUl2fAAAAABJRU5ErkJggg==" alt="Inventive trait icon">:</span> Inventive trait, can be learnt 1 level lower</p>
+    <p><b class="cav">Caveat:</b> some recipes are missing sometimes, and I'm not sure why.</p>
+  </div>
   <nav class="tabs" aria-label="Pages">
     <a href="#recipes" id="tab-recipes">Recipe search</a>
     <a href="#build" id="tab-build">Build a character</a>
