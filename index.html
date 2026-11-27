@@ -805,7 +805,7 @@ function renderRecipes(){
     if(r.books.length)rows.push([T('row.lit'),namesList(r.books,q,b=>`${INAME(b)} (${b})`)]);
     if(r.granted.length)rows.push([T('row.grant'),namesList(r.granted,q)]);
     rows.push([T('row.comp'),compBlock(r)]);
-    return `<article class="r${have?' have':''}${r._s<9?' nm':''}"><div class="top"><span class="name">${hl(r.name,q)}</span><span class="id">${hl(r.id,q)}</span>${pills}<button type="button" class="pathbtn" data-path="${esc(r.id)}">${esc(T('r.path'))}</button></div><dl class="grid">${rows.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl><span class="meta">${esc(r.file)}</span></article>`}).join('')||`<div class="empty">${esc(T('r.empty'))}</div>`;
+    return `<article class="r${have?' have':''}${r._s<9?' nm':''}"><div class="top"><span class="name">${hl(r.name,q)}${oIcons(OBTU(r.out.map(o=>IID(o[1]))))}</span><span class="id">${hl(r.id,q)}</span>${pills}<button type="button" class="pathbtn" data-path="${esc(r.id)}">${esc(T('r.path'))}</button></div><dl class="grid">${rows.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl><span class="meta">${esc(r.file)}</span></article>`}).join('')||`<div class="empty">${esc(T('r.empty'))}</div>`;
   $('#more').hidden=rs.length<=shown;$('#more').textContent=T('r.more',{n:rs.length-shown});
 }
 ['q','skill','lvl','via','all'].forEach(id=>$('#'+id).addEventListener('input',()=>{shown=60;renderRecipes()}));
