@@ -97,7 +97,7 @@ for n,r in sorted(recipes.items(),key=lambda x:x[0].lower()):
          'rlvl':r.get('ResearchSkillLevel',''),'rtag':'Cannot' if 'CannotBeResearched' in tags else ('Always' if 'CanAlwaysBeResearched' in tags else ''),
          'rItems':sorted(research.get(n,())),'rOut':[] if 'CannotBeResearched' in tags else sorted({o[1].replace('Base.','') for o in outs}),
          'books':sorted(books),'meta':r.get('MetaRecipe','').replace('base:',''),
-         'in':r['in'],'out':outs,'file':r['file']}
+         'in':r['in'],'out':outs,'file':r['file'],'time':r.get('time',''),'station':r.get('Tags','')}
     out_rec.append(rec)
 def tid(x): return x.replace('base:','')
 P=[]
