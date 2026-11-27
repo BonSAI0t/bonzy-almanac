@@ -186,7 +186,12 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 .info .tip{display:none;position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:5;width:auto;box-sizing:border-box;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px;font:400 12.5px/1.45 var(--body);box-shadow:0 6px 20px rgba(0,0,0,.25);text-transform:none;letter-spacing:0}
 .info:hover .tip,.info:focus .tip,.info:focus-within .tip{display:block}
 .info code{font-size:11.5px;word-break:break-all}
-.imp summary{font-size:12.5px}
+.imp summary{font-size:12.5px;position:relative;display:flex;align-items:center;gap:6px}
+.imp summary::before{content:"▸";font-size:11px}
+.imp[open] summary::before{content:"▾"}
+.imp summary::-webkit-details-marker{display:none}
+.imp summary{list-style:none}
+.imp summary .info{width:18px;height:18px;font-size:11px}
 .imp{display:grid;gap:6px}
 .imp[open]{padding-top:4px}
 .imp input{margin:6px 0}
@@ -295,7 +300,7 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
               <span class="info" tabindex="0" aria-describedby="infotip">i<span class="tip" id="infotip" role="tooltip"><b>Add it to your saved builds</b><br>1. Copy the line.<br>2. Close Project Zomboid (or stay on the main menu).<br>3. Open <code>C:\Users\&lt;you&gt;\Zomboid\Lua\saved_builds.txt</code> (Mac/Linux: <code>~/Zomboid/Lua/saved_builds.txt</code>).<br>4. Paste the line on its own new line and save.<br>5. In character creation, pick it from the <i>Select to load</i> dropdown.</span></span>
               <button class="btn" id="reset" type="button">Clear traits</button>
             </div>
-            <details class="imp"><summary>Load a build line</summary>
+            <details class="imp"><summary>Load a build line <span class="info" tabindex="0" aria-describedby="infotip2" onclick="event.preventDefault()">i<span class="tip" id="infotip2" role="tooltip"><b>Load one of your saved builds</b><br>1. Open <code>C:\Users\&lt;you&gt;\Zomboid\Lua\saved_builds.txt</code> (Mac/Linux: <code>~/Zomboid/Lua/saved_builds.txt</code>).<br>2. Copy one whole line, e.g. <code>My build:smither;weak;dextrous;</code><br>3. Paste it in the box below and press <i>Load</i>.<br>Traits from mods aren't in the base game, so they're skipped and listed.</span></span></summary>
               <input id="bimport" type="text" placeholder="Paste a line from saved_builds.txt" autocomplete="off">
               <button class="btn" id="bload" type="button">Load</button>
               <p class="alt" id="bmsg"></p>
