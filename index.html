@@ -729,6 +729,7 @@ $('#home').addEventListener('click',e=>{e.preventDefault();resetAll();
 /* ---------- credits ---------- */
 const CREDITS=[
   {name:'Retanaru',twitch:'retanaru',youtube:'@Retanaru',ideas:['General feedback on the site','Clicking the book logo takes you back to the start','Build a character laid out like the in-game screen (points always visible, positive and negative traits split)',{text:'The Metalworking path, from his Build 42.8.1 Metalworking Tech Tree and video ',link:'https://www.youtube.com/watch?v=MElOC7Krygc',label:'From Stone To Steel In B42.8.1',after:', plus corrections'}]},
+  {name:'sabertoothy',twitch:'sabertoothy',ideas:['Search tags so Google can find the Almanac']},
 ];
 function renderCredits(){
   $('#creditlist').innerHTML=CREDITS.map(c=>`<article class="credit"><div class="who"><b>${esc(c.name)}</b>${c.twitch?`<a href="https://www.twitch.tv/${encodeURIComponent(c.twitch)}" target="_blank" rel="noopener">twitch.tv/${esc(c.twitch)}</a><span class="lv${LIVE[c.twitch.toLowerCase()]?' on':''}" data-live="${esc(c.twitch.toLowerCase())}"><i></i>${LIVE[c.twitch.toLowerCase()]?'Live now':'Offline'}</span>`:''}${c.youtube?`<a href="https://www.youtube.com/${esc(c.youtube)}" target="_blank" rel="noopener">youtube.com/${esc(c.youtube)}</a>`:''}</div><ul>${c.ideas.map(i=>typeof i==='string'?`<li>${esc(i)}</li>`:`<li>${esc(i.text)}<a href="${esc(i.link)}" target="_blank" rel="noopener" style="font:inherit">${esc(i.label)}</a>${esc(i.after||'')}</li>`).join('')}</ul></article>`).join('');
