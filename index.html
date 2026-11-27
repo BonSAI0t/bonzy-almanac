@@ -28,7 +28,7 @@ body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--body);padding-inl
 h1{font:700 2.2rem/1 var(--display);letter-spacing:.01em;margin:0;text-transform:uppercase}
 h2{font:700 1.35rem/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0}
 .sub{color:var(--muted);max-width:70ch;margin:6px 0 0}
-nav.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+nav.tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:2px solid var(--line)}
 nav.tabs a{white-space:nowrap}
 nav.tabs a{font:700 1.05rem var(--display);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-decoration:none;padding:8px 14px;border:2px solid transparent;border-bottom:0;border-radius:6px 6px 0 0;margin-bottom:-2px}
 nav.tabs a[aria-current="page"]{color:var(--ink);background:var(--panel);border-color:var(--line);border-bottom:2px solid var(--panel)}
@@ -238,9 +238,14 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 .tn.fade,.tn.dim{opacity:.35}
 @media (prefers-reduced-motion:reduce){.tn{transition:none}}
 @media (max-width:820px){.tree{grid-auto-flow:row;grid-auto-columns:auto;width:auto;padding-left:4px}#treesvg{display:none}.ghead{min-height:0}}
-#treedetail{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);z-index:20;background:var(--bg);border-left:1px solid var(--line);box-shadow:-12px 0 32px rgba(0,0,0,.18);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 14px) 16px calc(env(safe-area-inset-bottom,0px) + 24px);transform:translateX(105%);transition:transform .2s ease;box-sizing:border-box}
-#treedetail.open{transform:none}
-#treedetail .mstep{margin-left:0}
+#treebackdrop{position:fixed;inset:0;z-index:19;background:rgba(12,14,11,.5)}
+#treedetail{position:fixed;left:50%;top:50%;z-index:20;width:min(680px,calc(100vw - 32px));max-height:min(82vh,860px);overflow:auto;box-sizing:border-box;background:var(--bg);border:1px solid var(--line);border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.35);padding:14px 16px 18px;transform:translate(-50%,-48%);opacity:0;visibility:hidden;transition:opacity .15s,transform .15s,visibility .15s}
+#treedetail.open{opacity:1;visibility:visible;transform:translate(-50%,-50%)}
+#treedetail .mstep{margin-left:0;border:0;padding:0;background:transparent}
+#treedetail h3{padding-right:36px}
+.xclose{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:400 20px/1 var(--body);cursor:pointer;display:grid;place-items:center}
+.xclose:hover{border-color:var(--accent)}
+.xclose:focus-visible{outline:2px solid var(--accent)}
 @media (prefers-reduced-motion:reduce){#treedetail{transition:none}}
 .scrollhint{margin:0;font-size:12.5px;color:var(--accent);font-weight:600}
 details.blk summary{cursor:pointer;color:var(--ink);font-size:13px}
@@ -355,7 +360,8 @@ details.blk[open] summary{margin-bottom:4px}
     </div>
     <p class="scrollhint" id="scrollhint" hidden>Scroll sideways for more gates →</p>
     <div class="treewrap" id="treewrap"><svg id="treesvg" aria-hidden="true"></svg><div class="tree" id="tree"></div></div>
-    <aside id="treedetail" aria-label="Details" aria-hidden="true"></aside>
+    <div id="treebackdrop" hidden></div>
+    <aside id="treedetail" role="dialog" aria-modal="true" aria-label="Details" aria-hidden="true"></aside>
   </section>
 
   <section id="page-credits" class="page" hidden>
@@ -659,7 +665,7 @@ const PAGES=['recipes','build','seasons','metal','credits'];
 function route(){
   const cur=PAGES.includes(location.hash.slice(1))?location.hash.slice(1):'recipes';
   PAGES.forEach(p=>{$('#page-'+p).hidden=p!==cur;const tb=$('#tab-'+p);if(p===cur)tb.setAttribute('aria-current','page');else tb.removeAttribute('aria-current')});
-  if(cur!=='metal'&&typeof SEL!=='undefined'&&SEL){SEL=null;$('#treedetail').classList.remove('open')}
+  if(cur!=='metal'&&typeof SEL!=='undefined'&&SEL){SEL=null;$('#treedetail').classList.remove('open');$('#treebackdrop').hidden=true}
   if(cur==='build')renderBuild();else if(cur==='credits')renderCredits();else if(cur==='metal')renderMetal();else if(cur==='seasons')renderSeasons();else renderRecipes()}
 /* ---------- home: clicking the book resets everything ---------- */
 function resetAll(){
@@ -828,8 +834,8 @@ function renderMetal(){
     const cls=['tn',match(n)?'':'dim',SEL===n.id?'sel':'',anc&&anc.has(n.id)?'anc':'',des&&des.has(n.id)?'des':'',SEL&&SEL!==n.id&&!anc.has(n.id)&&!des.has(n.id)?'fade':''].join(' ');
     const sk=n.skt?`<span class="sk">${esc(n.skt)}</span>`:nodeSkills(n).map(([s,l])=>`<span class="sk">${esc(SKN(s))} ${l}</span>`).join(' ');
     return `<button type="button" class="${cls}" data-node="${n.id}" id="tn-${n.id}"><span class="tt">${hl(n.t,q)}</span>${sk||n.ids.length?`<span class="tm">${sk||'<span class="sk met">No skill</span>'}${nodeLearn(n)&&!n.nolearn?' <span class="pill">must learn</span>':''}${n.loot?' <span class="pill ok">lootable</span>':''}${n.chg?' <span class="pill no">changed</span>':''}</span>`:''}${n.deps.length?`<span class="tdeps">needs ${n.deps.map(d=>esc(NBY[d].t)).join(', ')}</span>`:''}</button>`}).join('')}</div>`).join('');
-  drawEdges(anc,des);
   renderDetail();
+  drawEdges(anc,des);
   updScrollHint();
 }
 function drawEdges(anc,des){
@@ -849,17 +855,18 @@ function drawEdges(anc,des){
 }
 function renderDetail(){
   const el=$('#treedetail');
-  el.classList.toggle('open',!!SEL);el.setAttribute('aria-hidden',String(!SEL));
+  el.classList.toggle('open',!!SEL);el.setAttribute('aria-hidden',String(!SEL));$('#treebackdrop').hidden=!SEL;
   if(!SEL){el.innerHTML='';return}
   const n=NBY[SEL],q='';
   const rs=n.ids.map(i=>BYID[i]).filter(Boolean);
-  el.innerHTML=`<div class="mstep"><h3>${esc(n.t)} <button type="button" class="btn" id="tdclose" style="float:right">Close</button></h3>${n.note?`<p class="mnote">${esc(n.note)}</p>`:''}${n.loot?`<p class="mnote"><b>Loot shortcut:</b> ${esc(n.loot)}</p>`:''}${n.chg?`<p class="mchg"><b>Changed since 42.8.1:</b> ${esc(n.chg)}</p>`:''}${n.deps.length?`<p class="mnote"><b>Needs:</b> ${n.deps.map(d=>`<a href="#metal" data-go="${d}">${esc(NBY[d].t)}</a>`).join(', ')}</p>`:''}${n.kids.length?`<p class="mnote"><b>Unlocks:</b> ${n.kids.map(d=>`<a href="#metal" data-go="${d}">${esc(NBY[d].t)}</a>`).join(', ')}</p>`:''}${rs.map(r=>`<div class="mrec"><div class="rowtop"><span class="name">${esc(r.name)}</span><span class="id">${esc(r.id)}</span>${r.skill.filter(x=>x[1]>0).map(x=>skChip(x)).join(' ')||'<span class="sk met">No skill needed</span>'}${r.station&&/Forge|Furnace|Kiln|Press|Wheel|Loom|Scutch|Tan|Dry|Weav|Charcoal/i.test(r.station)?`<span class="pill">at ${esc(r.station.split(';').filter(x=>!/InHandCraft|AnySurfaceCraft|CanBeDoneFromFloor|Outdoors/.test(x)).join(' / ').replace(/([a-z])([A-Z])/g,'$1 $2'))}</span>`:''}</div><div>${learnInfo(r)}</div>${(r.learn||r.rtag)&&r.rtag!=='Cannot'&&(r.rItems.length||r.rOut.length)?`<div class="mres"><span class="mlbl">Research from</span> ${namesList([...new Set(r.rItems.concat(r.rOut))],q,INAME,8)}</div>`:''}${compBlock(r)}</div>`).join('')}</div>`;
+  el.innerHTML=`<div class="mstep"><button type="button" class="xclose" id="tdclose" aria-label="Close">×</button><h3>${esc(n.t)}</h3>${n.note?`<p class="mnote">${esc(n.note)}</p>`:''}${n.loot?`<p class="mnote"><b>Loot shortcut:</b> ${esc(n.loot)}</p>`:''}${n.chg?`<p class="mchg"><b>Changed since 42.8.1:</b> ${esc(n.chg)}</p>`:''}${n.deps.length?`<p class="mnote"><b>Needs:</b> ${n.deps.map(d=>`<a href="#metal" data-go="${d}">${esc(NBY[d].t)}</a>`).join(', ')}</p>`:''}${n.kids.length?`<p class="mnote"><b>Unlocks:</b> ${n.kids.map(d=>`<a href="#metal" data-go="${d}">${esc(NBY[d].t)}</a>`).join(', ')}</p>`:''}${rs.map(r=>`<div class="mrec"><div class="rowtop"><span class="name">${esc(r.name)}</span><span class="id">${esc(r.id)}</span>${r.skill.filter(x=>x[1]>0).map(x=>skChip(x)).join(' ')||'<span class="sk met">No skill needed</span>'}${r.station&&/Forge|Furnace|Kiln|Press|Wheel|Loom|Scutch|Tan|Dry|Weav|Charcoal/i.test(r.station)?`<span class="pill">at ${esc(r.station.split(';').filter(x=>!/InHandCraft|AnySurfaceCraft|CanBeDoneFromFloor|Outdoors/.test(x)).join(' / ').replace(/([a-z])([A-Z])/g,'$1 $2'))}</span>`:''}</div><div>${learnInfo(r)}</div>${(r.learn||r.rtag)&&r.rtag!=='Cannot'&&(r.rItems.length||r.rOut.length)?`<div class="mres"><span class="mlbl">Research from</span> ${namesList([...new Set(r.rItems.concat(r.rOut))],q,INAME,8)}</div>`:''}${compBlock(r)}</div>`).join('')}</div>`;
 }
-$('#tree')&&$('#tree').addEventListener('click',e=>{const b=e.target.closest('[data-node]');if(!b)return;SEL=SEL===b.dataset.node?null:b.dataset.node;renderMetal();if(SEL){$('#treedetail').scrollTop=0;$('#tdclose')&&$('#tdclose').focus({preventScroll:true})}});
+$('#tree')&&$('#tree').addEventListener('click',e=>{const b=e.target.closest('[data-node]');if(!b)return;SEL=SEL===b.dataset.node?null:b.dataset.node;renderMetal();if(SEL){$('#treedetail').scrollTop=0;$('#tdclose')&&$('#tdclose').focus({preventScroll:true});requestAnimationFrame(()=>{drawEdges(closure(SEL,'deps'),closure(SEL,'kids'));updScrollHint()})}else{requestAnimationFrame(()=>{drawEdges(null,null);updScrollHint()})}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&SEL){const id=SEL;SEL=null;renderMetal();const b=$('#tn-'+id);b&&b.focus()}});
 function updScrollHint(){const w=$('#treewrap'),h=$('#scrollhint');if(w&&h)h.hidden=!(w.scrollWidth>w.clientWidth+4)||window.matchMedia('(max-width:820px)').matches}
 $('#treewrap')&&$('#treewrap').addEventListener('scroll',()=>{const w=$('#treewrap');if(w.scrollLeft+w.clientWidth>=w.scrollWidth-4)$('#scrollhint').hidden=true});
-$('#treedetail').addEventListener('click',e=>{if(e.target.id==='tdclose'){SEL=null;renderMetal();return}const g=e.target.dataset&&e.target.dataset.go;if(g){e.preventDefault();SEL=g;renderMetal();$('#tn-'+g).scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})}});
+$('#treebackdrop').addEventListener('click',()=>{SEL=null;renderMetal()});
+$('#treedetail').addEventListener('click',e=>{if(e.target.closest('#tdclose')){SEL=null;renderMetal();return}const g=e.target.dataset&&e.target.dataset.go;if(g){e.preventDefault();SEL=g;renderMetal();$('#tn-'+g).scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})}});
 window.addEventListener('resize',()=>{if(!$('#page-metal').hidden){drawEdges(SEL?closure(SEL,'deps'):null,SEL?closure(SEL,'kids'):null);updScrollHint()}});
 
 $('#mq').addEventListener('input',renderMetal);
