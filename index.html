@@ -160,7 +160,11 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 .credit .who b{font:700 1.15rem var(--display);text-transform:uppercase;letter-spacing:.02em}
 .credit a{color:var(--accent);font:13px var(--mono)}
 .credit ul{margin:2px 0 0;padding-left:18px;font-size:13.5px}
-.mhead{display:flex;flex-wrap:wrap;gap:10px;align-items:end;justify-content:space-between}
+.mhead{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px 20px;align-items:start}
+.mhead .note{margin:0}
+.mtools{display:grid;gap:8px}
+@media (max-width:820px){.mhead{grid-template-columns:minmax(0,1fr)}}
+.mtools details.blk ol{font-size:12.5px}
 .mstage{display:grid;gap:10px}
 .mstage h2{display:flex;align-items:center;gap:10px}
 .mnum{font:700 14px var(--mono);background:var(--accent);color:var(--accent-ink);border-radius:50%;width:26px;height:26px;display:inline-grid;place-items:center;flex:none}
@@ -234,7 +238,13 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 .tn.fade,.tn.dim{opacity:.35}
 @media (prefers-reduced-motion:reduce){.tn{transition:none}}
 @media (max-width:820px){.tree{grid-auto-flow:row;grid-auto-columns:auto;width:auto;padding-left:4px}#treesvg{display:none}.ghead{min-height:0}}
-#treedetail{scroll-margin-top:12px}
+#treedetail{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);z-index:20;background:var(--bg);border-left:1px solid var(--line);box-shadow:-12px 0 32px rgba(0,0,0,.18);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 14px) 16px calc(env(safe-area-inset-bottom,0px) + 24px);transform:translateX(105%);transition:transform .2s ease;box-sizing:border-box}
+#treedetail.open{transform:none}
+#treedetail .mstep{margin-left:0}
+@media (prefers-reduced-motion:reduce){#treedetail{transition:none}}
+.scrollhint{margin:0;font-size:12.5px;color:var(--accent);font-weight:600}
+details.blk summary{cursor:pointer;color:var(--ink);font-size:13px}
+details.blk[open] summary{margin-bottom:4px}
 #treedetail a{color:var(--accent)}
 .foot{border-top:1px solid var(--line);padding-top:14px;font-size:12.5px;color:var(--muted);display:grid;gap:6px;max-width:80ch}
 .foot a{color:var(--accent)}
@@ -248,12 +258,12 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
     <a class="home" id="home" href="#recipes" title="Back to the start (resets filters)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAYAAACuwEE+AAAWfmNhQlgAABZ+anVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAFlhqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOmI4ZDY4ZmQ4LTJjZTgtNDA4NC1iMzgxLTkwOWJiNWFhZjVlYQAAAAOTanVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAAuGp1bWIAAABEanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5pbmdyZWRpZW50LnYzAAAAABhjMnNoWYwndu5m6F6zfxNbJ8gzIAAAAGxjYm9yo2lkYzpmb3JtYXRpaW1hZ2UvcG5namluc3RhbmNlSUR4LHhtcDppaWQ6MDVlZmIxNTktMzg1YS00NzQzLWE2YjYtYWMzYWZlODQzYjRkbHJlbGF0aW9uc2hpcGhwYXJlbnRPZgAAAeJqdW1iAAAAQWp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuYWN0aW9ucy52MgAAAAAYYzJzaOV0ROPsB9aTY0XhVAhE798AAAGZY2JvcqJnYWN0aW9uc4KiZmFjdGlvbmtjMnBhLm9wZW5lZGpwYXJhbWV0ZXJzoWtpbmdyZWRpZW50c4GiY3VybHgtc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5pbmdyZWRpZW50LnYzZGhhc2hYIM18ynA49hNDO3u2Hm/s1a8bhC6yTXJGle25OzPYZVXppGZhY3Rpb254HWNvbS5hbnRocm9waWMuY2xhdWRlLnByb3ZpZGVkanBhcmFtZXRlcnOheB9jb20uYW50aHJvcGljLm9yaWdpbi1jb25maWRlbmNlZ3Vua25vd25rZGVzY3JpcHRpb254ZkNsYXVkZSBwcm92aWRlZCB0aGlzIGZpbGUgYXQgdGhlIHJlcXVlc3Qgb2YgYSB1c2VyIGFuZCBtYXkgaGF2ZSBjcmVhdGVkIG9yIG1vZGlmaWVkIHRoZSBmaWxlIGNvbnRlbnRzLm1zb2Z0d2FyZUFnZW50oWRuYW1lZkNsYXVkZXJhbGxBY3Rpb25zSW5jbHVkZWT1AAAAyGp1bWIAAABAanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5oYXNoLmRhdGEAAAAAGGMyc2hD+3VjBXQoRhRsTny0UMsLAAAAgGNib3KlY2FsZ2ZzaGEyNTZjcGFkTQAAAAAAAAAAAAAAAABkaGFzaFgg3LgOXgAgXpCzPokPFjXKbJM7upKqZ1jt+VGvokVKBylkbmFtZW5qdW1iZiBtYW5pZmVzdGpleGNsdXNpb25zgaJlc3RhcnQYIWZsZW5ndGgZFooAAAI+anVtYgAAACdqdW1kYzJjbAARABCAAACqADibcQNjMnBhLmNsYWltLnYyAAAAAg9jYm9ypWNhbGdmc2hhMjU2aXNpZ25hdHVyZXhNc2VsZiNqdW1iZj0vYzJwYS91cm46YzJwYTpiOGQ2OGZkOC0yY2U4LTQwODQtYjM4MS05MDliYjVhYWY1ZWEvYzJwYS5zaWduYXR1cmVqaW5zdGFuY2VJRHgseG1wOmlpZDphOWNiNjVmNi04ZTFlLTRjNDktOWU3ZS0xMDBlNGRhN2MyM2VyY3JlYXRlZF9hc3NlcnRpb25zg6JjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggzXzKcDj2E0M7e7Yeb+zVrxuELrJNckaV7bk7M9hlVemiY3VybHgqc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5hY3Rpb25zLnYyZGhhc2hYILAteU2koUNq3Z+JHHLXN6CONFwF1LukvYoEmErKDTcgomN1cmx4KXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaGFzaC5kYXRhZGhhc2hYIMjO7iVLihWkdWKI2RFG3XR4K7OuIfO+fGlNba84bWFwdGNsYWltX2dlbmVyYXRvcl9pbmZvo2RuYW1lb0FudGhyb3BpYyBGaWxlc2d2ZXJzaW9uZTEuMC4wa3NwZWNWZXJzaW9uZTIuNC4wAAAQOGp1bWIAAAAoanVtZGMyY3MAEQAQgAAAqgA4m3EDYzJwYS5zaWduYXR1cmUAAAAQCGNib3LShFkCEqIBJhghWQIKMIICBjCCAY2gAwIBAgIUQOWgCu7COdC+uIP6BkIFPWdVEwAwCgYIKoZIzj0EAwMwSTEXMBUGA1UEChMOQW50aHJvcGljLCBQQkMxLjAsBgNVBAMTJUFudGhyb3BpYyBDb250ZW50IENyZWRlbnRpYWxzIFJvb3QgQ0EwHhcNMjYwODA3MTg0MzU2WhcNMjgwODA2MTk0MzU2WjBEMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEpMCcGA1UEAxMgQW50aHJvcGljIENsYXVkZSBDb250ZW50IFNpZ25pbmcwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASYegpry1AYBRTVNL1CpTlbROnY3dey+UrsF9C3phYrATN3ZHf93Mo8RQN0KOUuOn19P4oWNFWe5n2/She9N7eTo1gwVjAOBgNVHQ8BAf8EBAMCB4AwFQYDVR0lBA4wDAYKKwYBBAGD6F4CATAMBgNVHRMBAf8EAjAAMB8GA1UdIwQYMBaAFM5R4gSBTmRbI/jjxM+aPpzB11zCMAoGCCqGSM49BAMDA2cAMGQCMDFzHRSeAXrSy1WOzkbhPZ6Km2wGTmZ/2gK18k8BQGXyqz88Rdrz6CTX9flAnYNVxgIwcF9c3fVhqmJKpi+UhasNUMko69cyX6STPfta3Q8EjyzDjzoyrol46FP6VFHhvUcJoWNwYWRZDZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2WEDKvVrPCLDFgPmJ6Rel1pLzV4O7fON/HXKXid3wn24IGeZIrmcioKg0p8knYiC6IN5cxT5V7IlJBSwirDYCY0LJjnjTHQAABCBJREFUeF7t3KFrVWEcxvEpBoPIkCUZsiAyhogYDGJekCUxmQz+AUaD0WASo8loEoOI4UaDYUFEhiwYhlxMYwyTTTG+z5Xz8PC+99xzz76f5u7ZZff48J6H3/tyV1YAAAAAAAAAAAAAAACA8Tg1no/Sxtr59T/JOx3+mp6oe3g6uTkAgUGEwCByop6//6Qd5fH2pLihzybb0Q0eW8dhhUGEwCBCYBAZXYep7Sjq4GBa/GhjY73zBo+947DCIEJgECEwiCxdh+m7o2iHccbecVhhECEwiBAYRAbXYfruKLVzl747zqL3plhhECEwiBAYRBbeYVxn0fMoaed4+HwvuiHOk7urxSVu7lLbcYa2N8UKgwiBQYTAIDL3DuM6itLOkp5H0eufvj3uvCE7Nz90vv5+907n69pplHac2k6j+u44rDCIEBhECAwiZ6Kr/6O2ozi1HSB1ff2+/Ep3B/oyfV1cr79f28Fc53FzKu047v/L7VWxwiBCYBAhMIjYOYx75in3THXcMzvl5jApN7eZ7UCZee9NKTfH0U7DCoMIgUGEwCAy02FcZ3Edxc0dWncUx3UY10lq95Jaaz2X+nH0tfgTPx2+KP5Nh0EVHkmIEBhE7F7SrbVHxRumHcR1GpW+f2ut95JSrecw2lHUq4+3ix9tbpUdRrHCIEJgECEwiNgOc/j7e/mGR93vf+nCtc4LXEdp/Qx3ZucsdWeAndafL+0o+3uf3Z/YiRUGEQKDCIFBxO4lXTm3E73h2tnLnde7juPU7qXoGdxaOrcZekfZvHqj8yNvbt0rXmcvCVV4JCFCYBCxc5iLq2Un+XkscxkxM7dRjec4aWcY2pnbdI6idK7iOkp6vWKFQYTAIEJgELEdRjuLdhrVuuO4uU3rvam0E6W0s+h5FNdRlHYWt1fkOo7DCoMIgUGEwCBiO0zaUZp3nMZzG1W7N6XSuUpt56idq6RYYRAhMIgQGETiDuO4OUzacfrem3LSjqLSzlHbcZSed0mxwiBCYBAhMIjYM71OeubXSc/fOOkZ49YdZaZDyJnaRXcU9728ihUGEQKDCIFBxH5Pr3LfgadqO046t0lpx3HnU1TtXKX2fIqbq6QdxWGFQYTAIEJgEIk7jOM6Tm2nUbUd593ug86PlM5J0usd11FU686iWGEQITCIEBhEmncY5TqN6rvjvJyU31Pb91xlaB3FYYVBhMAgQmAQmXuHcYbWcVynUW4vaNk6isMKgwiBQYTAILLwDuPMu+PoXlI6h5npNPI9t2reez3zxgqDCIFBhMAgMvgO47iO4/am3HmYtKOMrbMoVhhECAwiBAaRpe8wynUatf/tTfEjN0cZe0dxWGEQITCIEBhERtdhnLTjLPveT2usMIgQGEQIDAAAAAAAAAAAAAAAAAAAAAAskb9Xwq2cZ+NBtwAAAABJRU5ErkJggg==" alt="The Bonzy Almanac home" width="70" height="70"></a>
     <div>
     <h1>The Bonzy Almanac</h1>
-    <p class="sub">Project Zomboid Build 42 recipes, read straight from the game's script files (export of 1 Nov 2026). Search what you can learn and how, or build a character and see everything they can make.</p>
+    <p class="sub">Project Zomboid Build 42 recipes, read from the game files as of Nov 27, 2026. Search recipes, plan a character, check growing seasons, and follow the metalworking path.</p>
     </div>
    </div>
    <div class="hdr-r">
    <a class="twitch" id="twitch" href="https://www.twitch.tv/sogoodbonzy" target="_blank" rel="noopener" title="Offline"><span class="dot" aria-hidden="true"></span>twitch.tv/sogoodbonzy<span class="live-lbl off" aria-hidden="true">LIVE</span></a>
-   <div class="theme" role="group" aria-label="Colour theme">
+   <div class="theme" role="group" aria-label="Color theme">
     <button type="button" data-mode="auto">Auto</button><button type="button" data-mode="light">Light</button><button type="button" data-mode="dark">Dark</button>
    </div>
    </div>
@@ -337,13 +347,15 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 
   <section id="page-metal" class="page" hidden>
     <div class="mhead">
-      <p class="note">The route from nothing to an advanced forge, based on <b>Retanaru</b>'s Build 42.8.1 Metalworking Tech Tree and his video guide <a href="https://www.youtube.com/watch?v=MElOC7Krygc" target="_blank" rel="noopener">From Stone To Steel In B42.8.1</a> (<a href="https://www.twitch.tv/retanaru" target="_blank" rel="noopener">twitch.tv/retanaru</a> · <a href="https://www.youtube.com/@Retanaru" target="_blank" rel="noopener">youtube.com/@Retanaru</a>). Recipes, skills and components below are read live from the current game files (1 Nov 2026), and anything that's changed since 42.8.1 is flagged. It assumes you craft most things; looting lets you skip a lot. Some recipes may have easier alternatives now.</p>
-      <label class="lbl" for="mq" style="min-width:240px">Filter steps<input id="mq" type="search" placeholder="nails, crucible, leather… (dims the rest)" autocomplete="off"></label>
+      <p class="note">Based on <b>Retanaru</b>'s Build 42.8.1 Metalworking Tech Tree and video <a href="https://www.youtube.com/watch?v=MElOC7Krygc" target="_blank" rel="noopener">From Stone To Steel In B42.8.1</a> (<a href="https://www.twitch.tv/retanaru" target="_blank" rel="noopener">twitch.tv/retanaru</a> · <a href="https://www.youtube.com/@Retanaru" target="_blank" rel="noopener">youtube.com/@Retanaru</a>), checked against the game files as of Nov 27, 2026. Changes since 42.8.1 are flagged. Each column is a <b>gate</b>: a milestone you need before the next one opens up; inside a gate, any order works. It assumes you craft most things, and looting skips a lot. <b>Click any box</b> for its recipes.</p>
+      <div class="mtools">
+        <label class="lbl" for="mq">Filter the tree<input id="mq" type="search" placeholder="nails, crucible, leather…" autocomplete="off"></label>
+        <details class="blk"><summary><b>Progression blockers</b> from 42.8.1</summary><ol id="blockers"></ol></details>
+      </div>
     </div>
-    <div class="blk"><b>Progression blockers</b> (from 42.8.1, with current status)<ol id="blockers"></ol></div>
-    <p class="note">Each column is a <b>gate</b>: a milestone you need before the next one opens up. Inside a gate the order is flexible. Click a box to see its recipes and light up what it needs and what it unlocks.</p>
+    <p class="scrollhint" id="scrollhint" hidden>Scroll sideways for more gates →</p>
     <div class="treewrap" id="treewrap"><svg id="treesvg" aria-hidden="true"></svg><div class="tree" id="tree"></div></div>
-    <div id="treedetail"></div>
+    <aside id="treedetail" aria-label="Details" aria-hidden="true"></aside>
   </section>
 
   <section id="page-credits" class="page" hidden>
@@ -352,7 +364,7 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
   </section>
 
   <footer class="foot">
-    <p style="margin:0"><b>AI disclosure:</b> this page was built with Claude (Anthropic). Claude wrote the parser that pulls the recipe data out of the game's script and translation files and wrote the page code, working from BonSAI0t's prompts and corrections. The data comes straight from the game files, but the research rules and starting skill levels are inferred, so check in game before relying on them.</p>
+    <p style="margin:0"><b>AI disclosure:</b> this page was built with Claude (Anthropic). Claude wrote the parser that pulls the recipe data out of the game's script and translation files and wrote the page code, working from BonSAI0t's prompts and corrections. The data comes straight from the game files. The research rules come from the game's own code, but code can be misread and things change between updates, and starting skill levels are our own calculation, so check in game before relying on them.</p>
     <p style="margin:0">Made by BonSAI0t. Catch the streams at <a href="https://www.twitch.tv/sogoodbonzy" target="_blank" rel="noopener">twitch.tv/sogoodbonzy</a>.</p>
     <p style="margin:0">Page code © 2026 BonSAI0t, <a href="https://opensource.org/license/mit" rel="noopener">MIT License</a>. Recipe data, names and the Inventive trait icon come from Project Zomboid game files, © The Indie Stone, and are not covered by that license. This is a fan project, not affiliated with or endorsed by The Indie Stone.</p>
   </footer>
@@ -542,7 +554,7 @@ $('#bload').addEventListener('click',()=>{
   const rest=prof?parts.slice(1):parts;const ok=[],skip=[];
   rest.forEach(p=>{const id=p.toLowerCase();if(TRAIT[id]&&!TRAIT[id].prof)ok.push(id);else skip.push(p)});
   if(prof)$('#prof').value=prof;chosen=new Set(ok);$('#bname').value=name;
-  $('#bmsg').textContent=`Loaded ${ok.length} traits${prof?'':' (occupation not recognised, kept current one)'}${skip.length?`. Skipped ${skip.length} not in the base game (mods?): ${skip.join(', ')}`:''}.`;
+  $('#bmsg').textContent=`Loaded ${ok.length} traits${prof?'':' (occupation not recognized, kept current one)'}${skip.length?`. Skipped ${skip.length} not in the base game (mods?): ${skip.join(', ')}`:''}.`;
   renderBuild()});;
 $('#reset').addEventListener('click',()=>{chosen.clear();renderBuild()});
 
@@ -647,6 +659,7 @@ const PAGES=['recipes','build','seasons','metal','credits'];
 function route(){
   const cur=PAGES.includes(location.hash.slice(1))?location.hash.slice(1):'recipes';
   PAGES.forEach(p=>{$('#page-'+p).hidden=p!==cur;const tb=$('#tab-'+p);if(p===cur)tb.setAttribute('aria-current','page');else tb.removeAttribute('aria-current')});
+  if(cur!=='metal'&&typeof SEL!=='undefined'&&SEL){SEL=null;$('#treedetail').classList.remove('open')}
   if(cur==='build')renderBuild();else if(cur==='credits')renderCredits();else if(cur==='metal')renderMetal();else if(cur==='seasons')renderSeasons();else renderRecipes()}
 /* ---------- home: clicking the book resets everything ---------- */
 function resetAll(){
@@ -702,7 +715,7 @@ const METAL=[
   {t:'Advanced kiln',ids:['Kiln_Large','Kiln_Small'],note:"Skip the primitive kiln: it costs the same as the advanced one, and only the advanced kiln can fire the anvil mold."},
   {t:'Fire the crucible',ids:['FireCeramicCrucible'],chg:'"Start Fire" now accepts any lighter, matches, a magnesium firestarter or a lit candle. In 42.8.1 it needed a modern lighter.'},
   {t:'Anvil mold',ids:['MakeWoodenBlacksmithAnvilMold','Hand_Press','PressBlacksmithAnvilMold','Fire_ClayBlacksmithAnvilMold'],note:'Carpentry 2 wooden mold, hand-operated press, press the clay mold, then fire it in the advanced kiln.'},
-  {t:'Cast the anvil at the furnace',ids:['CastBlacksmithAnvil'],note:'Expensive: a ceramic mold, 10 charcoal and 32 crucibles of molten iron.'},
+  {t:'Cast the anvil at the furnace',ids:['CastBlacksmithAnvil'],note:'Expensive: a ceramic mold, 10 charcoal and 32 units of molten iron (one full crucible plus one with 12).'},
  ]},
  {stage:'Leather for the bellows',steps:[
   {t:'Butcher hook, get a medium animal',ids:['Forge_Large_Hook','ButcherHook'],chg:'The butcher hook now needs a Large Hook, forged at the primitive forge.'},
@@ -710,7 +723,7 @@ const METAL=[
   {t:'Brain tan and tanning',ids:['CreateBrainTan','TanninBarrel','TanLeather'],note:'You can cut large leather into medium leather, so a large animal works too.'},
   {t:'Dry the leather',ids:['DryingRackMedium','DryMediumLeather'],chg:'Drying now takes time on the rack, so leave it and come back (tip from Retanaru).'},
  ]},
- {stage:'Fibre for sacks (sand)',steps:[
+ {stage:'Fiber for sacks (sand)',steps:[
   {t:'Dogbane or hemp',ids:['CraftTwine'],note:'Forage dogbane to skip growing hemp. Dogbane also makes twine, so you can skip thread.'},
   {t:'Scutch hemp (optional)',ids:['ScutchingBoard','MakeDullBoneKnife','ScutchFibre'],note:'Skip this if you have dogbane. Check other dull-knife options for scutching. Butter knives work too.'},
   {t:'Loom, burlap and a sack',ids:['SimpleLoom','WeaveBurlap','SewSack'],note:'Fill the sack on a sand tile to get a Sack of Sand.'},
@@ -727,12 +740,12 @@ const METAL=[
 const BLOCKERS=[
   ['Iron ore isn\'t meant to spawn on the main map.','still true: get lucky foraging it, or mod it in'],
   ['No smithing recipe for wire.','partly fixed: strip it from barbed wire'],
-  ['Nails block pottery.','until you forge your own at the primitive forge (Blacksmithing 1)'],
-  ['Nails block access to hides.','same: forge nails at the primitive forge'],
+  ['Nails block pottery.','until you forge your own: primitive forge, Blacksmithing 1'],
+  ['Nails block leather (butcher hook, beam, barrel).','same fix: forge your own nails'],
   ['Kilns need a modern lighter.','fixed: any fire starter'],
-  ['Levelling knapping is slow.',''],
+  ['Leveling knapping is slow.','still true'],
   ['Growing hemp is likely impossible.','forage dogbane instead'],
-  ['Primitive runs rely on endless foraging.',''],
+  ['Primitive runs rely on endless foraging.','still true'],
 ];
 function learnInfo(r){
   if(!r.learn)return '<span class="pill ok">No learning needed</span>';
@@ -748,28 +761,28 @@ function learnInfo(r){
 const GATES=[
  {t:'Basic tools',goal:'Get Maintenance 1 and make primitive tools.',block:'Maintenance 0 can\'t make any basic tool.'},
  {t:'Primitive forge running',goal:'Stone anvil, clay cement, charcoal and some iron at a primitive forge.',block:'Iron. Ore doesn\'t spawn on the main map: loot metal, or get lucky foraging ore.'},
- {t:'Nails',goal:'Forge your own smithing tools, then nails. Everything after this needs nails.',block:'Blacksmithing 1 and learning the forge recipes (magazine, research, or auto-learn at 3). Looted nails skip this gate.'},
+ {t:'Nails',goal:'Forge your own smithing tools, then nails. Most of what comes after this needs nails.',block:'Blacksmithing 1 and learning the forge recipes (magazine, research, or auto-learn at 3). Looted nails skip this gate.'},
  {t:'Pottery and kiln',goal:'Pottery wheel, crucibles and an advanced kiln.',block:'Nails (wheel), Masonry 2 (stone wheels), a Sack of Sand (crucible).'},
- {t:'Furnace, anvil and leather',goal:'Cast a real anvil and tan leather. Two branches you can do in either order.',block:'32 crucibles of molten iron for the anvil. A medium animal and nails for leather.'},
+ {t:'Furnace, anvil and leather',goal:'Cast a blacksmith anvil and tan leather. Two branches you can do in either order.',block:'32 units of molten iron for the anvil (a crucible holds 20: one full, one with 12). A medium animal and nails for leather.'},
  {t:'Advanced forge and steel',goal:'Bucket, bellows and anvil come together. Dome kiln for steel.',block:'Wire (strip barbed wire), tanned medium leather for the bellows.'},
 ];
 const NODES=[
  // gate 1
  {id:'maint',g:0,t:'Maintenance 1',ids:[],note:"You can't make any of the basic tools at Maintenance 0. Grinding it from 0 is slow, so start with a trait or occupation that gives Maintenance or teaches the early recipes if you can."},
  {id:'knap',g:0,t:'Knapped tools',deps:['maint'],ids:['MakeStoneChisel','MakeStoneBladeSaw'],note:'Forage sharp stones and flint. Knapping is slow to level.'},
- {id:'carve',g:0,t:'Carved tools',deps:['maint'],ids:['CarveTrowel','CarveWoodenSpade','CarveBucket','MakeBoneSewingNeedle'],note:'Trowel for building, spade for the charcoal pile, bucket for cement, needle for sacks.',chg:'The wooden trowel no longer needs any Carving.'},
+ {id:'carve',g:0,t:'Carved tools',skt:'Carving 0–4',deps:['maint'],ids:['CarveTrowel','CarveWoodenSpade','CarveBucket','MakeBoneSewingNeedle'],note:'Trowel for building, spade for the charcoal pile, bucket for cement, needle for sacks.',chg:'The wooden trowel no longer needs any Carving.'},
  {id:'tongs0',g:0,t:'Simple wooden tongs',deps:['maint'],ids:['MakeCrudeWoodenTongs'],note:'Good enough for every early forge recipe.'},
- {id:'masonry',g:0,t:'Level Masonry',sk:[],ids:['Make_Stones_from_Large_Stone','MakeStoneMaulHead','MakeStoneMaul'],note:'Smash large stones: 10 Masonry XP each, no skill needed, roughly 35 gets you going (tip from BonSAI0t).',loot:'A looted club hammer, sledgehammer or pickaxe skips the Knapping 5 maul head.'},
+ {id:'masonry',g:0,t:'Level Masonry',sk:[],nolearn:true,ids:['Make_Stones_from_Large_Stone','MakeStoneMaulHead','MakeStoneMaul'],note:'Smash large stones: 10 Masonry XP each, no skill needed, roughly 35 gets you going (tip from BonSAI0t).',loot:'A looted club hammer, sledgehammer or pickaxe skips the Knapping 5 maul head.'},
  {id:'blocks',g:0,t:'Stone blocks',deps:['masonry','knap'],ids:['Make_Stone_Block_from_Stone'],note:'You need lots: 40 for the simple furnace, 30 for a forge, 40 for the dome kiln.',chg:'Only needs Masonry 1 now.'},
  // gate 2
- {id:'cement',g:1,t:'Clay cement (use grass)',deps:['carve'],ids:['MakeBucketOfClayCementFromGrass','MakeBucketOfClayCement'],note:'Use the grass version: 50 grass cuttings or hay. Save sand for crucibles.',chg:'Grass recipe exists now (tip from Retanaru).'},
+ {id:'cement',g:1,t:'Clay cement',deps:['carve'],ids:['MakeBucketOfClayCementFromGrass','MakeBucketOfClayCement'],note:'Use the grass version: 50 grass cuttings or hay. Save sand for crucibles.',chg:'Grass recipe exists now (tip from Retanaru).'},
  {id:'charcoal',g:1,t:'Charcoal',deps:['carve'],ids:['Charcoal_Pit','MakeWoodCharcoal'],note:'Everything at the forge burns charcoal. The burning pile is the cheap early way.'},
  {id:'anvil0',g:1,t:'Stone anvil',deps:['masonry'],ids:['Make_Stone_Anvil'],note:'Masonry 2.'},
  {id:'pforge',g:1,t:'Primitive forge',deps:['cement','anvil0'],ids:['Forge_Primitive_Forge'],note:'Where all early smithing happens.'},
  {id:'pfurnace',g:1,t:'Primitive furnace',deps:['cement'],ids:['Primitive_Furnace'],note:'Cheap (clay and stone). Smelts iron blooms, and smelts scrap once you have a crucible.'},
  {id:'iron',g:1,t:'First iron',deps:['pfurnace','pforge','charcoal'],ids:['ExtractIronBloom','ExtractIronFromBloom'],note:"Bloom from iron ore in the primitive furnace, then hammer it into chunks at the forge.",loot:'Looted iron chunks, bar stock or scrap metal (cars) skip this.'},
  // gate 3
- {id:'bs1',g:2,t:'Grind Blacksmithing 1',deps:['iron','tongs0','charcoal','pforge'],ids:['ForgeSmallIronBand','Forge_Bar_Quarter_From_Chunk','Forge_Bar_Half','Pierce_Chunk'],note:"No learning needed. Make small iron bands (you'll want two for the wooden bucket) and bar stock until you hit 1."},
+ {id:'bs1',g:2,t:'Grind Blacksmithing 1',skt:'Blacksmithing 0',deps:['iron','tongs0','charcoal','pforge'],ids:['ForgeSmallIronBand','Forge_Bar_Quarter_From_Chunk','Forge_Bar_Half','Pierce_Chunk'],note:"No learning needed. Make small iron bands (you'll want two for the wooden bucket) and bar stock until you hit 1."},
  {id:'punch',g:2,t:'Metalworking punch',deps:['bs1'],ids:['Forge_Metalworking_Punch']},
  {id:'heading',g:2,t:'Heading tool',deps:['punch'],ids:['Forge_Heading_Tool']},
  {id:'mtongs',g:2,t:'Metal tongs',deps:['punch','heading'],ids:['Forge_Tongs']},
@@ -779,18 +792,18 @@ const NODES=[
  // gate 4
  {id:'wheels',g:3,t:'Stone wheels',deps:['masonry','knap'],ids:['Make_Stone_Wheel','Make_Small_Stone_Wheel'],chg:'New: the pottery wheel needs a stone wheel and a small stone wheel.'},
  {id:'pwheel',g:3,t:'Pottery wheel',deps:['wheels','nails'],ids:['Pottery_Wheel']},
- {id:'fibre',g:3,t:'Fibre and twine',ids:['CraftTwine','ScutchingBoard','MakeDullBoneKnife','ScutchFibre'],note:'Forage dogbane to skip growing hemp; it makes twine directly. Scutching is only for hemp/flax.'},
- {id:'sack',g:3,t:'Sack of Sand',deps:['fibre','carve'],ids:['SimpleLoom','WeaveBurlap','SewSack'],note:'Weave burlap, sew a sack, fill it on a sand tile. Only the crucible needs sand.',loot:'Any looted sack works.'},
+ {id:'fiber',g:3,t:'Fiber and twine',sk:[],ids:['CraftTwine','ScutchingBoard','MakeDullBoneKnife','ScutchFibre'],note:'Forage dogbane to skip growing hemp; it makes twine directly. Scutching is only for hemp/flax.'},
+ {id:'sack',g:3,t:'Sack of Sand',deps:['fiber','carve'],ids:['SimpleLoom','WeaveBurlap','SewSack'],note:'Weave burlap, sew a sack, fill it on a sand tile. Only the crucible needs sand.',loot:'Any looted sack works.'},
  {id:'kiln',g:3,t:'Advanced kiln',deps:['carve'],ids:['Kiln_Large','Kiln_Small'],note:'Skip the primitive kiln: same cost, and only the advanced one fires the anvil mold.'},
  {id:'crucible',g:3,t:'Crucibles',deps:['pwheel','sack','kiln'],ids:['MakeCeramicCrucible','MakeCeramicCrucibleSmall','FireCeramicCrucible'],chg:'Firing takes any fire starter now (matches, any lighter, firestarter, lit candle).'},
  {id:'bowl',g:3,t:'Clay bowl',deps:['pwheel','kiln'],ids:['MakeClayBowl','FireClayBowl'],note:'For brain tanning.',loot:'Any looted bowl works.'},
  // gate 5
  {id:'sfurnace',g:4,t:'Simple furnace',deps:['blocks','cement'],ids:['Smelting_Furnace'],note:'40 stone blocks. Needed to cast the anvil.'},
- {id:'smelt',g:4,t:'Iron at scale',deps:['crucible','pfurnace'],ids:['ExtractIronFromSmallItem','ExtractIronFromIronOre'],note:'Recycle scrap weapons and tools in a crucible. You need a lot of it for the anvil.'},
+ {id:'smelt',g:4,t:'Iron at scale',deps:['crucible','pfurnace','sfurnace'],ids:['ExtractIronFromSmallItem','ExtractIronFromIronOre'],note:'Recycle scrap weapons and tools in a crucible at the primitive furnace. Ore needs the simple furnace. The anvil takes a lot of iron.'},
  {id:'mold',g:4,t:'Anvil mold',deps:['nails','kiln'],ids:['MakeWoodenBlacksmithAnvilMold','Hand_Press','PressBlacksmithAnvilMold','Fire_ClayBlacksmithAnvilMold'],note:'Carpentry 2 wooden mold, hand press, press the clay mold, fire it in the advanced kiln.'},
- {id:'castanvil',g:4,t:'Cast the blacksmith anvil',deps:['mold','smelt','sfurnace','mtongs'],ids:['CastBlacksmithAnvil'],note:'A ceramic mold, 10 charcoal and 32 crucibles of molten iron.',loot:'A looted blacksmith anvil skips this branch.'},
+ {id:'castanvil',g:4,t:'Cast the blacksmith anvil',deps:['mold','smelt','sfurnace','mtongs'],ids:['CastBlacksmithAnvil'],note:'A ceramic mold, 10 charcoal and 32 units of molten iron (one full crucible plus one with 12).',loot:'A looted blacksmith anvil skips this branch.'},
  {id:'hook',g:4,t:'Butcher hook',deps:['largehook','nails'],ids:['ButcherHook'],chg:'Now needs a Large Hook, forged at the primitive forge.'},
- {id:'flesh',g:4,t:'Flesh and fur removal',deps:['nails','knap'],ids:['CarveFleshingTool','Forge_Fleshing_Tool','SofteningBeam']},
+ {id:'flesh',g:4,t:'Flesh and fur removal',skt:'Carving 2 or Blacksmithing 3',deps:['nails','knap'],ids:['CarveFleshingTool','Forge_Fleshing_Tool','SofteningBeam']},
  {id:'tan',g:4,t:'Tanning',deps:['hook','flesh','bowl','nails'],ids:['CreateBrainTan','TanninBarrel','TanLeather'],note:'Large leather can be cut into medium, so a large animal works too.'},
  {id:'dry',g:4,t:'Dry the leather',deps:['tan','nails'],ids:['DryingRackMedium','DryMediumLeather'],chg:'Drying now takes time on the rack (tip from Retanaru).'},
  // gate 6
@@ -798,7 +811,7 @@ const NODES=[
  {id:'wbucket',g:5,t:'Wooden bucket',deps:['nails','wire','bs1'],ids:['MakeWoodenBucket'],note:'Nails, wire and 2 small iron bands.'},
  {id:'bellows',g:5,t:'Large bellows',deps:['dry','nails'],ids:['CarveMediumHandle','MakeLargeBellows'],note:'Needs tanned medium leather.'},
  {id:'aforge',g:5,t:'Advanced forge',deps:['castanvil','wbucket','bellows','blocks','cement'],ids:['Advanced_Forge','Forge'],note:"Skip the simple forge: it isn't needed, and the advanced one only adds the bellows."},
- {id:'afurnace',g:5,t:'Advanced furnace',deps:['bellows','blocks','cement'],ids:['Blast_Furnace']},
+ {id:'afurnace',g:5,t:'Advanced furnace',deps:['bellows','blocks','cement'],ids:['Blast_Furnace'],note:'Needed for steel: casting steel bars and ingots and smelting steel items all happen here. Pair it with coke from the dome kiln.'},
  {id:'steel',g:5,t:'Steel (dome kiln + coke)',deps:['blocks','charcoal','cement'],ids:['Dome_Kiln','MakeCoke'],note:'Coke from the dome kiln turns iron into steel.'},
 ];
 const NBY=Object.fromEntries(NODES.map(n=>[n.id,n]));
@@ -811,12 +824,13 @@ function renderMetal(){
   const q=$('#mq').value.trim().toLowerCase();
   const match=n=>!q||(n.t+' '+(n.note||'')+' '+(n.chg||'')+' '+(n.loot||'')+' '+n.ids.map(i=>BYID[i]?BYID[i].hay:'').join(' ')).toLowerCase().includes(q);
   const anc=SEL?closure(SEL,'deps'):null,des=SEL?closure(SEL,'kids'):null;
-  $('#tree').innerHTML=GATES.map((g,gi)=>`<div class="gcol"><div class="ghead"><span class="mnum">${gi+1}</span><div><b>${esc(g.t)}</b><p>${esc(g.goal)}</p><p class="gblk"><b>Gate:</b> ${esc(g.block)}</p></div></div>${NODES.filter(n=>n.g===gi).map(n=>{
+  $('#tree').innerHTML=GATES.map((g,gi)=>`<div class="gcol"><div class="ghead"><span class="mnum">${gi+1}</span><div><b>${esc(g.t)}</b><p>${esc(g.goal)}</p><p class="gblk"><b>Blocker:</b> ${esc(g.block)}</p></div></div>${NODES.filter(n=>n.g===gi).map(n=>{
     const cls=['tn',match(n)?'':'dim',SEL===n.id?'sel':'',anc&&anc.has(n.id)?'anc':'',des&&des.has(n.id)?'des':'',SEL&&SEL!==n.id&&!anc.has(n.id)&&!des.has(n.id)?'fade':''].join(' ');
-    const sk=nodeSkills(n).map(([s,l])=>`<span class="sk">${esc(SKN(s))} ${l}</span>`).join(' ');
-    return `<button type="button" class="${cls}" data-node="${n.id}" id="tn-${n.id}"><span class="tt">${hl(n.t,q)}</span>${sk||n.ids.length?`<span class="tm">${sk||'<span class="sk met">No skill</span>'}${nodeLearn(n)?' <span class="pill">learn</span>':''}${n.loot?' <span class="pill ok">loot skip</span>':''}${n.chg?' <span class="pill no">changed</span>':''}</span>`:''}${n.deps.length?`<span class="tdeps">needs ${n.deps.map(d=>esc(NBY[d].t)).join(', ')}</span>`:''}</button>`}).join('')}</div>`).join('');
+    const sk=n.skt?`<span class="sk">${esc(n.skt)}</span>`:nodeSkills(n).map(([s,l])=>`<span class="sk">${esc(SKN(s))} ${l}</span>`).join(' ');
+    return `<button type="button" class="${cls}" data-node="${n.id}" id="tn-${n.id}"><span class="tt">${hl(n.t,q)}</span>${sk||n.ids.length?`<span class="tm">${sk||'<span class="sk met">No skill</span>'}${nodeLearn(n)&&!n.nolearn?' <span class="pill">must learn</span>':''}${n.loot?' <span class="pill ok">lootable</span>':''}${n.chg?' <span class="pill no">changed</span>':''}</span>`:''}${n.deps.length?`<span class="tdeps">needs ${n.deps.map(d=>esc(NBY[d].t)).join(', ')}</span>`:''}</button>`}).join('')}</div>`).join('');
   drawEdges(anc,des);
   renderDetail();
+  updScrollHint();
 }
 function drawEdges(anc,des){
   const wrap=$('#treewrap'),svg=$('#treesvg');if(!wrap||!svg)return;
@@ -835,14 +849,18 @@ function drawEdges(anc,des){
 }
 function renderDetail(){
   const el=$('#treedetail');
-  if(!SEL){el.innerHTML='<p class="note">Click any box to see its recipes, components, how to learn them, and research items. Its requirements and what it unlocks light up in the tree.</p>';return}
+  el.classList.toggle('open',!!SEL);el.setAttribute('aria-hidden',String(!SEL));
+  if(!SEL){el.innerHTML='';return}
   const n=NBY[SEL],q='';
   const rs=n.ids.map(i=>BYID[i]).filter(Boolean);
   el.innerHTML=`<div class="mstep"><h3>${esc(n.t)} <button type="button" class="btn" id="tdclose" style="float:right">Close</button></h3>${n.note?`<p class="mnote">${esc(n.note)}</p>`:''}${n.loot?`<p class="mnote"><b>Loot shortcut:</b> ${esc(n.loot)}</p>`:''}${n.chg?`<p class="mchg"><b>Changed since 42.8.1:</b> ${esc(n.chg)}</p>`:''}${n.deps.length?`<p class="mnote"><b>Needs:</b> ${n.deps.map(d=>`<a href="#metal" data-go="${d}">${esc(NBY[d].t)}</a>`).join(', ')}</p>`:''}${n.kids.length?`<p class="mnote"><b>Unlocks:</b> ${n.kids.map(d=>`<a href="#metal" data-go="${d}">${esc(NBY[d].t)}</a>`).join(', ')}</p>`:''}${rs.map(r=>`<div class="mrec"><div class="rowtop"><span class="name">${esc(r.name)}</span><span class="id">${esc(r.id)}</span>${r.skill.filter(x=>x[1]>0).map(x=>skChip(x)).join(' ')||'<span class="sk met">No skill needed</span>'}${r.station&&/Forge|Furnace|Kiln|Press|Wheel|Loom|Scutch|Tan|Dry|Weav|Charcoal/i.test(r.station)?`<span class="pill">at ${esc(r.station.split(';').filter(x=>!/InHandCraft|AnySurfaceCraft|CanBeDoneFromFloor|Outdoors/.test(x)).join(' / ').replace(/([a-z])([A-Z])/g,'$1 $2'))}</span>`:''}</div><div>${learnInfo(r)}</div>${(r.learn||r.rtag)&&r.rtag!=='Cannot'&&(r.rItems.length||r.rOut.length)?`<div class="mres"><span class="mlbl">Research from</span> ${namesList([...new Set(r.rItems.concat(r.rOut))],q,INAME,8)}</div>`:''}${compBlock(r)}</div>`).join('')}</div>`;
 }
-$('#tree')&&$('#tree').addEventListener('click',e=>{const b=e.target.closest('[data-node]');if(!b)return;SEL=SEL===b.dataset.node?null:b.dataset.node;renderMetal();if(SEL&&window.matchMedia('(max-width:820px)').matches)$('#treedetail').scrollIntoView({behavior:'smooth',block:'start'})});
+$('#tree')&&$('#tree').addEventListener('click',e=>{const b=e.target.closest('[data-node]');if(!b)return;SEL=SEL===b.dataset.node?null:b.dataset.node;renderMetal();if(SEL){$('#treedetail').scrollTop=0;$('#tdclose')&&$('#tdclose').focus({preventScroll:true})}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&SEL){const id=SEL;SEL=null;renderMetal();const b=$('#tn-'+id);b&&b.focus()}});
+function updScrollHint(){const w=$('#treewrap'),h=$('#scrollhint');if(w&&h)h.hidden=!(w.scrollWidth>w.clientWidth+4)||window.matchMedia('(max-width:820px)').matches}
+$('#treewrap')&&$('#treewrap').addEventListener('scroll',()=>{const w=$('#treewrap');if(w.scrollLeft+w.clientWidth>=w.scrollWidth-4)$('#scrollhint').hidden=true});
 $('#treedetail').addEventListener('click',e=>{if(e.target.id==='tdclose'){SEL=null;renderMetal();return}const g=e.target.dataset&&e.target.dataset.go;if(g){e.preventDefault();SEL=g;renderMetal();$('#tn-'+g).scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'})}});
-window.addEventListener('resize',()=>{if(!$('#page-metal').hidden)drawEdges(SEL?closure(SEL,'deps'):null,SEL?closure(SEL,'kids'):null)});
+window.addEventListener('resize',()=>{if(!$('#page-metal').hidden){drawEdges(SEL?closure(SEL,'deps'):null,SEL?closure(SEL,'kids'):null);updScrollHint()}});
 
 $('#mq').addEventListener('input',renderMetal);
 $('#blockers').innerHTML=BLOCKERS.map(([a,b])=>`<li>${esc(a)}${b?` <span class="st">(${esc(b)})</span>`:''}</li>`).join('');
