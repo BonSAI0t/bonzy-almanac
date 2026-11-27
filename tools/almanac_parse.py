@@ -102,11 +102,11 @@ for n,r in sorted(recipes.items(),key=lambda x:x[0].lower()):
 def tid(x): return x.replace('base:','')
 P=[]
 for pid,k in profs.items():
-    i=tid(pid); P.append({'id':i,'name':T_UI.get(k.get('UIName',''),i),'cost':int(k.get('Cost',0) or 0),
+    i=tid(pid); P.append({'id':i,'uk':k.get('UIName',''),'name':T_UI.get(k.get('UIName',''),i),'cost':int(k.get('Cost',0) or 0),
       'xp':sklist(k.get('XPBoosts'),'='),'traits':[tid(x) for x in lst(k.get('GrantedTraits'))],'recipes':lst(k.get('GrantedRecipes'))})
 TR_=[]
 for t,k in traits.items():
-    i=tid(t); TR_.append({'id':i,'name':T_UI.get(k.get('UIName',''),i),'desc':T_UI.get(k.get('UIDescription',''),''),
+    i=tid(t); TR_.append({'id':i,'uk':k.get('UIName',''),'dk':k.get('UIDescription',''),'name':T_UI.get(k.get('UIName',''),i),'desc':T_UI.get(k.get('UIDescription',''),''),
       'cost':int(k.get('Cost',0) or 0),'prof':k.get('IsProfessionTrait','false').lower()=='true',
       'mp_off':k.get('DisabledInMultiplayer','false').lower()=='true',
       'xp':sklist(k.get('XPBoosts'),'='),'recipes':lst(k.get('GrantedRecipes')),
@@ -142,7 +142,7 @@ TAGS={}
 for t in used_tags:
     short=t.split(':')[-1]; mem=sorted(tagitems.get(t.lower(),[]))
     lab=seg(short)
-    TAGS[t]={'name':lab,'items':[iname(x) for x in mem][:40],'more':max(0,len(mem)-40)}
+    TAGS[t]={'name':lab,'items':[iname(x) for x in mem][:40],'more':max(0,len(mem)-40),'ik':mem[:40]}
 SK=sorted({s for r in out_rec for s,_ in r['skill']+r['any']+r['all']}|{s for p in P+TR_ for s,_ in p['xp']})
 # crops / growing seasons from farming Lua
 CROPS=[]
@@ -160,7 +160,7 @@ if LUA and os.path.isdir(LUA):
             veg=val('vegetableName')
             CROPS.append({'id':key,'name':T_REC.get(sr,'').replace(' Growing Season','') or (iname(veg) if veg else human(key)),
               'recipe':sr,'sow':arr('sowMonth'),'best':arr('bestMonth'),'risk':arr('riskMonth'),'bad':arr('badMonth'),
-              'hours':int(val('timeToGrow') or 0),'cold':val('coldHardy')=='true','produce':iname(veg) if veg else '',
+              'veg':veg,'hours':int(val('timeToGrow') or 0),'cold':val('coldHardy')=='true','produce':iname(veg) if veg else '',
               'seeds':[iname(x) for x in re.findall(r'"([\w\.]+)"',(re.search(r'seedTypes\s*=\s*\{([^}]*)\}',body) or [None,''])[1])],
               'books':sorted(learned.get(sr,())),'file':fn})
     CROPS.sort(key=lambda c:c['name'])

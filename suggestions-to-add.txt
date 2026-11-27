@@ -1,0 +1,45 @@
+Metalworking path:
+Highlight path on mouseover not click
+
+Recipies tab:
+Next to each component:
+1 - icons showing things that are craftable, foragable, lootable, etc - based on obtaining method
+2 - clicking on a specific component should open up the recipie search for that component
+clicking a button to see all
+3 - stretch: button on each recipie that I can click that opens a crafting page that shows craft path, including the above icons showing craftable foragable lootable. Like the metalworking path.
+4 - Prioritize the thing that you search if the word is in the thing e.g.
+Steel Bar should show Cast Steel Bar, Cast Steel Bar from Iron, at the top - with a subtle green accent of some kind
+
+
+Build a character page - make that better somehow, maybe negative traits on the right positive on the left?
+
+
+Other language translations
+
+
+Foraging tab - enter name of thing - find foraging
+also what items are in specific categories
+Also the "special loot" bonus from stuff on floors - e.g. wood on floor finds sticks more often, stones etc same
+
+
+
+Loop:
+"Inventive trait icon: Inventive trait: auto-learn 1 level lower, research 2 levels lower
+
+Caveat: some recipes are missing sometimes, and I'm not sure why." - is that a random tip that's cool.
+
+It isn't - BUT WE SHOULD ADD IT!
+
+
+
+bringr:
+- Link to the project zomboid map and with the tiles overlay selected for each book
+- Icons to the builds
+- genes or propane spawns
+- Full item list tab
+
+
+
+
+SoGoodBonzy: I'm thinking of like combat guides n shit as well
+SoGoodBonzy: like entire sections on "how" to play the game - with links to other peoples youtube videos
