@@ -3,6 +3,7 @@
 usage: almanac_parse.py <generated_dir> <translate_EN_dir> <out.json>"""
 import os,re,json,sys,collections
 GEN,TR,OUT=sys.argv[1:4]
+LUA=sys.argv[4] if len(sys.argv)>4 else None
 def tj(n):
     try: return json.load(open(os.path.join(TR,n),encoding='utf-8'))
     except Exception: return {}
@@ -143,6 +144,28 @@ for t in used_tags:
     lab=seg(short)
     TAGS[t]={'name':lab,'items':[iname(x) for x in mem][:40],'more':max(0,len(mem)-40)}
 SK=sorted({s for r in out_rec for s,_ in r['skill']+r['any']+r['all']}|{s for p in P+TR_ for s,_ in p['xp']})
-json.dump({'recipes':out_rec,'profs':sorted(P,key=lambda x:x['name']),'traits':sorted(TR_,key=lambda x:x['name']),
+# crops / growing seasons from farming Lua
+CROPS=[]
+if LUA and os.path.isdir(LUA):
+    for fn in sorted(os.listdir(LUA)):
+        if not fn.startswith('farming_vegetableconf') or 'sprites' in fn or not fn.endswith('.lua'): continue
+        txt=open(os.path.join(LUA,fn),encoding='utf-8',errors='replace').read()
+        for m in re.finditer(r'farming_vegetableconf\.props(?:\.(\w+)|\["([^"]+)"\])\s*=\s*\{(.*?)\n\}',txt,re.S):
+            key=m.group(1) or m.group(2); body='\n'.join(l for l in m.group(3).split('\n') if not l.strip().startswith('--'))
+            def arr(k):
+                mm=re.search(r'\b'+k+r'\s*=\s*\{([^}]*)\}',body); return [int(x) for x in re.findall(r'\d+',mm.group(1))] if mm else []
+            def val(k):
+                mm=re.search(r'\b'+k+r'\s*=\s*("?)([^,\n"]*)\1',body); return mm.group(2).strip() if mm else ''
+            sr=val('seasonRecipe')
+            veg=val('vegetableName')
+            CROPS.append({'id':key,'name':T_REC.get(sr,'').replace(' Growing Season','') or (iname(veg) if veg else human(key)),
+              'recipe':sr,'sow':arr('sowMonth'),'best':arr('bestMonth'),'risk':arr('riskMonth'),'bad':arr('badMonth'),
+              'hours':int(val('timeToGrow') or 0),'cold':val('coldHardy')=='true','produce':iname(veg) if veg else '',
+              'seeds':[iname(x) for x in re.findall(r'"([\w\.]+)"',(re.search(r'seedTypes\s*=\s*\{([^}]*)\}',body) or [None,''])[1])],
+              'books':sorted(learned.get(sr,())),'file':fn})
+    CROPS.sort(key=lambda c:c['name'])
+    for c in CROPS:
+        for b in c['books']: INAMES.setdefault(b,iname(b))
+json.dump({'crops':CROPS,'recipes':out_rec,'profs':sorted(P,key=lambda x:x['name']),'traits':sorted(TR_,key=lambda x:x['name']),
   'items':INAMES,'tags':TAGS,'skills':{s:skname(s) for s in SK}},open(OUT,'w',encoding='utf-8'),separators=(',',':'),ensure_ascii=False)
-print('recipes',len(out_rec),'learnable',sum(r['learn'] for r in out_rec),'profs',len(P),'traits',len(TR_),'items',len(INAMES),'bytes',os.path.getsize(OUT))
+print('crops',len(CROPS),'recipes',len(out_rec),'learnable',sum(r['learn'] for r in out_rec),'profs',len(P),'traits',len(TR_),'items',len(INAMES),'bytes',os.path.getsize(OUT))
