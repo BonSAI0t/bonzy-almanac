@@ -1114,7 +1114,7 @@ function renderMetal(){
   drawEdges(anc,des);
   updScrollHint();
 }
-function drawEdges(anc,des){
+function drawEdges(anc,des,F){if(F===undefined)F=SEL;
   const wrap=$('#treewrap'),svg=$('#treesvg');if(!wrap||!svg)return;
   if(window.matchMedia('(max-width:820px)').matches){svg.innerHTML='';return}
   const W=$('#tree').scrollWidth,H=$('#tree').scrollHeight;svg.setAttribute('width',W);svg.setAttribute('height',H);svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
@@ -1125,8 +1125,8 @@ function drawEdges(anc,des){
     const a=box(d),b=box(n.id);let path;
     if(NBY[d].g===n.g){const x=a.l-2,y1=a.cy,y2=b.cy,dx=-18;path=`M${x},${y1} C${x+dx},${y1} ${x+dx},${y2} ${b.l-2},${y2}`}
     else{const x1=a.r,x2=b.l,mx=(x1+x2)/2;path=`M${x1},${a.cy} C${mx},${a.cy} ${mx},${b.cy} ${x2},${b.cy}`}
-    const inA=x=>x===SEL||anc.has(x),inD=x=>x===SEL||des.has(x);const hot=!!SEL&&((inA(n.id)&&anc.has(d))||(inD(d)&&des.has(n.id)));
-    p+=`<path d="${path}" class="edge${hot?' hot':''}${SEL&&!hot?' cold':''}"/>`}));
+    const inA=x=>x===F||anc.has(x),inD=x=>x===F||des.has(x);const hot=!!F&&((inA(n.id)&&anc.has(d))||(inD(d)&&des.has(n.id)));
+    p+=`<path d="${path}" class="edge${hot?' hot':''}${F&&!hot?' cold':''}"/>`}));
   svg.innerHTML=p;
 }
 function renderDetail(){
@@ -1137,7 +1137,23 @@ function renderDetail(){
   const rs=n.ids.map(i=>BYID[i]).filter(Boolean);
   el.innerHTML=`<div class="mstep"><button type="button" class="xclose" id="tdclose" aria-label="${esc(T('mt.close'))}">×</button><h3>${esc(NT(n,'t'))}</h3>${n.note?`<p class="mnote">${esc(NT(n,'note'))}</p>`:''}${n.loot?`<p class="mnote"><b>${T('mt.lootShort')}</b> ${esc(NT(n,'loot'))}</p>`:''}${n.chg?`<p class="mchg"><b>${T('mt.changedSince')}</b> ${esc(NT(n,'chg'))}</p>`:''}${n.deps.length?`<p class="mnote"><b>${T('mt.needsH')}</b> ${n.deps.map(d=>`<a href="#metal" data-go="${d}">${esc(NT(NBY[d],'t'))}</a>`).join(', ')}</p>`:''}${n.kids.length?`<p class="mnote"><b>${T('mt.unlocks')}</b> ${n.kids.map(d=>`<a href="#metal" data-go="${d}">${esc(NT(NBY[d],'t'))}</a>`).join(', ')}</p>`:''}${rs.map(r=>`<div class="mrec"><div class="rowtop"><span class="name">${esc(r.name)}</span><span class="id">${esc(r.id)}</span>${r.skill.filter(x=>x[1]>0).map(x=>skChip(x)).join(' ')||`<span class="sk met">${T('b.noSkill')}</span>`}${r.station&&/Forge|Furnace|Kiln|Press|Wheel|Loom|Scutch|Tan|Dry|Weav|Charcoal/i.test(r.station)?`<span class="pill">${esc(T('mt.at',{x:r.station.split(';').filter(x=>!/InHandCraft|AnySurfaceCraft|CanBeDoneFromFloor|Outdoors/.test(x)).map(STN).join(' / ')}))}</span>`:''}</div><div>${learnInfo(r)}</div>${(r.learn||r.rtag)&&r.rtag!=='Cannot'&&(r.rItems.length||r.rOut.length)?`<div class="mres"><span class="mlbl">${T('mt.researchFrom')}</span> ${namesList([...new Set(r.rItems.concat(r.rOut))],q,INAME,8)}</div>`:''}${compBlock(r)}</div>`).join('')}</div>`;
 }
-$('#tree')&&$('#tree').addEventListener('click',e=>{const b=e.target.closest('[data-node]');if(!b)return;SEL=SEL===b.dataset.node?null:b.dataset.node;renderMetal();if(SEL){$('#treedetail').scrollTop=0;$('#tdclose')&&$('#tdclose').focus({preventScroll:true});requestAnimationFrame(()=>{drawEdges(closure(SEL,'deps'),closure(SEL,'kids'));updScrollHint()})}else{requestAnimationFrame(()=>{drawEdges(null,null);updScrollHint()})}});
+$('#tree')&&$('#tree').addEventListener('click',e=>{const b=e.target.closest('[data-node]');if(!b)return;HOV=null;SEL=SEL===b.dataset.node?null:b.dataset.node;renderMetal();if(SEL){$('#treedetail').scrollTop=0;$('#tdclose')&&$('#tdclose').focus({preventScroll:true});requestAnimationFrame(()=>{drawEdges(closure(SEL,'deps'),closure(SEL,'kids'));updScrollHint()})}else{requestAnimationFrame(()=>{drawEdges(null,null);updScrollHint()})}});
+let HOV=null;
+function hoverPath(id){
+  if(SEL||id===HOV)return;HOV=id;
+  const anc=id?closure(id,'deps'):null,des=id?closure(id,'kids'):null;
+  document.querySelectorAll('#tree [data-node]').forEach(el=>{const n=el.dataset.node;
+    el.classList.toggle('sel',n===id);el.classList.toggle('anc',!!anc&&anc.has(n));el.classList.toggle('des',!!des&&des.has(n));
+    el.classList.toggle('fade',!!id&&n!==id&&!anc.has(n)&&!des.has(n))});
+  drawEdges(anc,des,id);
+}
+if($('#tree')){
+  $('#tree').addEventListener('mouseover',e=>{const b=e.target.closest('[data-node]');if(b)hoverPath(b.dataset.node)});
+  $('#tree').addEventListener('mouseleave',()=>hoverPath(null));
+  $('#tree').addEventListener('mouseout',e=>{if(!e.relatedTarget||!e.relatedTarget.closest||!e.relatedTarget.closest('[data-node]'))hoverPath(null)});
+  $('#tree').addEventListener('focusin',e=>{const b=e.target.closest('[data-node]');if(b&&b.matches(':focus-visible'))hoverPath(b.dataset.node)});
+  $('#tree').addEventListener('focusout',()=>hoverPath(null));
+}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&SEL){const id=SEL;SEL=null;renderMetal();const b=$('#tn-'+id);b&&b.focus()}});
 function updScrollHint(){const w=$('#treewrap'),h=$('#scrollhint');if(w&&h)h.hidden=!(w.scrollWidth>w.clientWidth+4)||window.matchMedia('(max-width:820px)').matches}
 $('#treewrap')&&$('#treewrap').addEventListener('scroll',()=>{const w=$('#treewrap');if(w.scrollLeft+w.clientWidth>=w.scrollWidth-4)$('#scrollhint').hidden=true});
