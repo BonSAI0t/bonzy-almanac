@@ -403,7 +403,7 @@ details.blk[open] summary{margin-bottom:4px}
       <p class="note">Based on <b>Retanaru</b>'s Build 42.8.1 Metalworking Tech Tree and video <a href="https://www.youtube.com/watch?v=MElOC7Krygc" target="_blank" rel="noopener">From Stone To Steel In B42.8.1</a> (<a href="https://www.twitch.tv/retanaru" target="_blank" rel="noopener">twitch.tv/retanaru</a> · <a href="https://www.youtube.com/@Retanaru" target="_blank" rel="noopener">youtube.com/@Retanaru</a>), checked against the game files as of Nov 27, 2026. Changes since 42.8.1 are flagged. Each column is a <b>gate</b>: a milestone you need before the next one opens up; inside a gate, any order works. It assumes you craft most things, and looting skips a lot. <b>Click any box</b> for its recipes.</p>
       <div class="mtools">
         <label class="lbl" for="mq">Filter the tree<input id="mq" type="search" placeholder="nails, crucible, leather…" autocomplete="off"></label>
-        <details class="blk"><summary><b>Progression blockers</b> from 42.8.1</summary><ol id="blockers"></ol></details>
+        <details class="blk"><summary><b>Progression blockers</b></summary><ol id="blockers"></ol></details>
       </div>
     </div>
     <p class="scrollhint" id="scrollhint" hidden>Scroll sideways for more gates →</p>
@@ -728,7 +728,7 @@ $('#home').addEventListener('click',e=>{e.preventDefault();resetAll();
   if(location.hash!=='#recipes')history.pushState(null,'','#recipes');route();window.scrollTo({top:0})});
 /* ---------- credits ---------- */
 const CREDITS=[
-  {name:'Retanaru',twitch:'retanaru',youtube:'@Retanaru',ideas:['Clicking the book logo takes you back to the start','Build a character laid out like the in-game screen (points always visible, positive and negative traits split)',{text:'The Metalworking path, from his Build 42.8.1 Metalworking Tech Tree and video ',link:'https://www.youtube.com/watch?v=MElOC7Krygc',label:'From Stone To Steel In B42.8.1',after:', plus corrections'}]},
+  {name:'Retanaru',twitch:'retanaru',youtube:'@Retanaru',ideas:['General feedback on the site','Clicking the book logo takes you back to the start','Build a character laid out like the in-game screen (points always visible, positive and negative traits split)',{text:'The Metalworking path, from his Build 42.8.1 Metalworking Tech Tree and video ',link:'https://www.youtube.com/watch?v=MElOC7Krygc',label:'From Stone To Steel In B42.8.1',after:', plus corrections'}]},
 ];
 function renderCredits(){
   $('#creditlist').innerHTML=CREDITS.map(c=>`<article class="credit"><div class="who"><b>${esc(c.name)}</b>${c.twitch?`<a href="https://www.twitch.tv/${encodeURIComponent(c.twitch)}" target="_blank" rel="noopener">twitch.tv/${esc(c.twitch)}</a><span class="lv${LIVE[c.twitch.toLowerCase()]?' on':''}" data-live="${esc(c.twitch.toLowerCase())}"><i></i>${LIVE[c.twitch.toLowerCase()]?'Live now':'Offline'}</span>`:''}${c.youtube?`<a href="https://www.youtube.com/${esc(c.youtube)}" target="_blank" rel="noopener">youtube.com/${esc(c.youtube)}</a>`:''}</div><ul>${c.ideas.map(i=>typeof i==='string'?`<li>${esc(i)}</li>`:`<li>${esc(i.text)}<a href="${esc(i.link)}" target="_blank" rel="noopener" style="font:inherit">${esc(i.label)}</a>${esc(i.after||'')}</li>`).join('')}</ul></article>`).join('');
@@ -792,14 +792,14 @@ const METAL=[
  ]},
 ];
 const BLOCKERS=[
-  ['Iron ore isn\'t meant to spawn on the main map.','still true: get lucky foraging it, or mod it in'],
-  ['No smithing recipe for wire.','partly fixed: strip it from barbed wire'],
-  ['Nails block pottery.','until you forge your own: primitive forge, Blacksmithing 1'],
-  ['Nails block leather (butcher hook, beam, barrel).','same fix: forge your own nails'],
-  ['Kilns need a modern lighter.','fixed: any fire starter'],
-  ['Leveling knapping is slow.','still true'],
-  ['Growing hemp is likely impossible.','forage dogbane instead'],
-  ['Primitive runs rely on endless foraging.','still true'],
+  ['Maintenance 0 can\'t make any basic tools.','start with a trait or occupation that gives Maintenance'],
+  ['Iron ore isn\'t meant to spawn on the main map.','loot metal, get lucky foraging ore, or mod it in'],
+  ['Nails gate pottery, the hand press and leather (butcher hook, beam, barrel).','loot them, or forge your own at the primitive forge (Blacksmithing 1)'],
+  ['No smithing recipe for wire.','strip barbed wire with pliers, or loot it'],
+  ['The blacksmith anvil takes 32 units of molten iron.','one full crucible plus one with 12'],
+  ['Leveling knapping is slow.','a looted club hammer, sledgehammer or pickaxe skips the Knapping 5 maul head'],
+  ['Growing hemp is unreliable.','forage dogbane instead'],
+  ['Primitive runs rely on endless foraging.',''],
 ];
 function learnInfo(r){
   if(!r.learn)return '<span class="pill ok">No learning needed</span>';
@@ -918,7 +918,7 @@ $('#treedetail').addEventListener('click',e=>{if(e.target.closest('#tdclose')){S
 window.addEventListener('resize',()=>{if(!$('#page-metal').hidden){drawEdges(SEL?closure(SEL,'deps'):null,SEL?closure(SEL,'kids'):null);updScrollHint()}});
 
 $('#mq').addEventListener('input',renderMetal);
-$('#blockers').innerHTML=BLOCKERS.map(([a,b])=>`<li>${esc(a)}${b?` <span class="st">(${esc(b)})</span>`:''}</li>`).join('');
+$('#blockers').innerHTML=BLOCKERS.map(([a,b])=>`<li>${esc(a)}${b?` <span class="st">Workaround: ${esc(b)}.</span>`:''}</li>`).join('');
 window.addEventListener('hashchange',route);route();
 checkLive();setInterval(checkLive,120000);
 </script>
