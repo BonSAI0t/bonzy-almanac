@@ -1,9 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>The Bonzy Almanac</title><link rel="icon" type="image/png" href="logo/bonzy-book-35.png">
+<title>The Bonzy Almanac · Project Zomboid B42 recipes, builds &amp; metalworking</title>
+<meta name="description" content="Project Zomboid Build 42 reference: every learnable recipe and how to unlock it (auto-learn levels, research, magazines, traits), a character builder with saved_builds.txt export, crop growing seasons, and a metalworking tech tree. Read from the game files as of Nov 27, 2026.">
+<meta name="keywords" content="Project Zomboid, Build 42, B42, recipes, research, auto-learn, magazines, traits, occupations, character builder, saved_builds.txt, growing seasons, farming, metalworking, blacksmithing, forge, tech tree, Inventive trait">
+<meta name="author" content="BonSAI0t">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#4E6A2E" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#151916" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://bonsai0t.github.io/bonzy-almanac/">
+<link rel="alternate" type="text/plain" href="https://bonsai0t.github.io/bonzy-almanac/llms.txt" title="LLM summary">
+<link rel="sitemap" type="application/xml" href="https://bonsai0t.github.io/bonzy-almanac/sitemap.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Bonzy Almanac">
+<meta property="og:title" content="The Bonzy Almanac: Project Zomboid B42 recipes, builds and metalworking">
+<meta property="og:description" content="Every learnable Project Zomboid Build 42 recipe and how to unlock it, plus a character builder, growing seasons and a metalworking tech tree.">
+<meta property="og:url" content="https://bonsai0t.github.io/bonzy-almanac/">
+<meta property="og:image" content="https://bonsai0t.github.io/bonzy-almanac/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Bonzy Almanac: a purple pixel book with a B on the cover">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Bonzy Almanac: Project Zomboid B42 recipes, builds and metalworking">
+<meta name="twitter:description" content="Every learnable Project Zomboid Build 42 recipe and how to unlock it, plus a character builder, growing seasons and a metalworking tech tree.">
+<meta name="twitter:image" content="https://bonsai0t.github.io/bonzy-almanac/og-image.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebSite","@id":"https://bonsai0t.github.io/bonzy-almanac/#site","name":"The Bonzy Almanac","url":"https://bonsai0t.github.io/bonzy-almanac/","inLanguage":"en-US","publisher":{"@id":"https://bonsai0t.github.io/bonzy-almanac/#author"}},
+{"@type":"WebApplication","@id":"https://bonsai0t.github.io/bonzy-almanac/#app","name":"The Bonzy Almanac","url":"https://bonsai0t.github.io/bonzy-almanac/","applicationCategory":"ReferenceApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inLanguage":"en-US","dateModified":"2026-11-27","description":"Project Zomboid Build 42 reference built from the game files: learnable recipes and how to unlock them (auto-learn, research, magazines, occupations and traits), a character builder that exports saved_builds.txt lines, crop growing seasons, and a gated metalworking tech tree.","about":{"@type":"VideoGame","name":"Project Zomboid","author":{"@type":"Organization","name":"The Indie Stone"},"url":"https://projectzomboid.com/"},"featureList":["Recipe search with unlock routes","Research level rules from the game code","Inventive trait adjustments","Character builder with saved_builds.txt import and export","Crop growing season calendar","Metalworking tech tree"],"author":{"@id":"https://bonsai0t.github.io/bonzy-almanac/#author"},"isBasedOn":{"@type":"VideoObject","name":"From Stone To Steel In B42.8.1 Project Zomboid","url":"https://www.youtube.com/watch?v=MElOC7Krygc","creator":{"@type":"Person","name":"Retanaru","sameAs":["https://www.youtube.com/@Retanaru","https://www.twitch.tv/retanaru"]}},"license":"https://opensource.org/license/mit"},
+{"@type":"Person","@id":"https://bonsai0t.github.io/bonzy-almanac/#author","name":"BonSAI0t","url":"https://www.twitch.tv/sogoodbonzy","sameAs":["https://www.twitch.tv/sogoodbonzy","https://github.com/BonSAI0t"]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What skill level do you need to research a recipe in Project Zomboid Build 42?","acceptedAnswer":{"@type":"Answer","text":"Two thirds of the recipe's highest craft skill requirement, rounded, with a minimum of 1 (for example a level 5 recipe researches at 3). You only need that level in any one of the recipe's skills. If the recipe has no craft skill, the auto-learn level is used instead. A few recipes set their own research level."}},
+{"@type":"Question","name":"What does the Inventive trait do in Project Zomboid Build 42?","acceptedAnswer":{"@type":"Answer","text":"Inventive lowers the skill level needed to research recipes by 2 and the level needed to auto-learn recipes by 1."}},
+{"@type":"Question","name":"Which items can you research to learn a recipe?","acceptedAnswer":{"@type":"Answer","text":"An item can teach the recipes on its researchable recipes list, plus any learnable recipe that produces that item, unless the recipe is tagged as cannot be researched."}},
+{"@type":"Question","name":"Where is saved_builds.txt for Project Zomboid character builds?","acceptedAnswer":{"@type":"Answer","text":"On Windows it is in C:\\Users\\<you>\\Zomboid\\Lua\\saved_builds.txt (Mac/Linux: ~/Zomboid/Lua/saved_builds.txt). Each line is name:occupation;trait;trait; and appears in the character creation Select to load dropdown."}}
+]}
+]}
+</script>
+<link rel="icon" type="image/png" href="logo/bonzy-book-35.png">
 <link rel="apple-touch-icon" href="logo/bonzy-book-140.png">
 <script>try{var m=JSON.parse(localStorage.getItem("bz_theme"));if(m==="light"||m==="dark")document.documentElement.setAttribute("data-theme",m)}catch(e){}</script>
 
@@ -256,7 +293,18 @@ details.blk[open] summary{margin-bottom:4px}
 @media (max-width:520px){.grid{grid-template-columns:minmax(0,1fr)}.grid dt{padding-top:6px}}
 </style>
 </head>
-<body>
+<body><noscript><div style="max-width:70ch;margin:24px auto;padding:0 16px;font:15px/1.5 system-ui,sans-serif">
+<h1>The Bonzy Almanac</h1>
+<p>A Project Zomboid Build 42 reference read from the game files as of Nov 27, 2026. This page needs JavaScript for its interactive tools. It covers:</p>
+<ul>
+<li><b>Recipe search</b>: every learnable recipe, its craft skills, auto-learn levels (with the Inventive trait), research items and research level, magazines that teach it, and occupations or traits that grant it, plus full components.</li>
+<li><b>Build a character</b>: pick an occupation and traits, see starting skills and every recipe you start knowing or auto-learn, and copy or load lines for saved_builds.txt.</li>
+<li><b>Growing seasons</b>: planting, best, poor and bad months for all 55 crops, and who knows each season.</li>
+<li><b>Metalworking path</b>: a gated tech tree from basic tools to the advanced forge and steel, based on Retanaru's Build 42.8.1 tech tree.</li>
+</ul>
+<p>Plain-text summary for AI tools: <a href="llms.txt">llms.txt</a>. Made by BonSAI0t, <a href="https://www.twitch.tv/sogoodbonzy">twitch.tv/sogoodbonzy</a>.</p>
+</div></noscript>
+
 <div class="wrap">
   <header class="hdr">
    <div class="brand">

@@ -1,0 +1,23 @@
+# The Bonzy Almanac
+
+> A free Project Zomboid Build 42 reference built straight from the game's script, translation and farming files (as of Nov 27, 2026). It shows every recipe that has to be learned and every way to unlock it, a character builder, crop growing seasons, and a metalworking tech tree. Made by BonSAI0t (twitch.tv/sogoodbonzy). Fan project, not affiliated with The Indie Stone.
+
+Site: https://bonsai0t.github.io/bonzy-almanac/
+
+## Pages
+- [Recipe search](https://bonsai0t.github.io/bonzy-almanac/#recipes): learnable recipes with craft skill, auto-learn level, research level and research items, magazines, granting occupations/traits, and components (K = tool is kept).
+- [Build a character](https://bonsai0t.github.io/bonzy-almanac/#build): occupation and traits, points, starting skills, recipes known or auto-learned at start, and saved_builds.txt import/export.
+- [Growing seasons](https://bonsai0t.github.io/bonzy-almanac/#seasons): planting, best, poor and bad months for 55 crops, cold hardiness, and who knows each season.
+- [Metalworking path](https://bonsai0t.github.io/bonzy-almanac/#metal): gated tech tree from basic tools to the advanced forge and steel, based on Retanaru's Build 42.8.1 tech tree and video "From Stone To Steel In B42.8.1" (https://www.youtube.com/watch?v=MElOC7Krygc).
+
+## Key rules (from the game's code)
+- Research level = two thirds of the recipe's highest craft skill, rounded, minimum 1 (level 5 researches at 3, 9 at 6). Any one of the recipe's skills counts. With no craft skill, the auto-learn level is used.
+- Inventive trait: research 2 levels lower, auto-learn 1 level lower (auto-learn never below 1).
+- You can research a recipe from items on its researchable list and from the item it produces, unless it is tagged CannotBeResearched.
+- saved_builds.txt lives in C:\Users\<you>\Zomboid\Lua\ (Mac/Linux ~/Zomboid/Lua/). Line format: name:occupation;trait;trait;
+- Cold hardy crops (Barley, Cabbage, Flax, Garlic, Kale, Leek, Rye, Wheat, Wild Garlic) ignore the winter curse and cold damage. Kale (stage 3+) and Carrots (stage 4+) also ignore their bad months.
+- Metalworking gates: basic tools (Maintenance 1) → primitive forge (stone anvil, clay cement, charcoal, iron) → nails (Blacksmithing 1) → pottery and kiln → furnace, anvil (32 units of molten iron) and leather → advanced forge and steel.
+
+## Data
+- [Full learnable recipe list](https://bonsai0t.github.io/bonzy-almanac/llms-full.txt): one line per recipe with every unlock route.
+- [Metalworking tech tree image](https://bonsai0t.github.io/bonzy-almanac/metalworking-tech-tree-2026-11.png)
