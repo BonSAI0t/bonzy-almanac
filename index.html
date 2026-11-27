@@ -570,7 +570,7 @@ const METAL=[
  {stage:'Furnace and primitive forge',steps:[
   {t:'Primitive forge',ids:['Forge_Primitive_Forge'],note:'Needs the stone anvil. This is where all early smithing happens.'},
   {t:'Primitive or simple furnace',ids:['Primitive_Furnace','Smelting_Furnace'],note:'The primitive furnace is cheap (clay and stone). The simple furnace costs 40 stone blocks, but you probably ground Masonry 2 for the anvil anyway. You need a furnace for casting the anvil, recycling weapons/tools, or making iron.'},
-  {t:'Get iron',ids:['ExtractIronFromSmallItem','ExtractIronBloom','ExtractIronFromBloom'],note:"You don't need a furnace straight away if you're getting metal elsewhere, like scrapping cars. Iron ore doesn't spawn on the main map under default settings, so a no-loot run means forage ore and smelt an iron bloom in the primitive furnace."},
+  {t:'Get iron',ids:['ExtractIronFromSmallItem','ExtractIronBloom','ExtractIronFromBloom'],note:"You don't need a furnace straight away if you're getting metal elsewhere, like scrapping cars. Iron ore doesn't spawn on the main map, so a no-loot run means getting lucky foraging ore (or modding it in), then smelting an iron bloom in the primitive furnace."},
  ]},
  {stage:'First smithing',steps:[
   {t:'Simple wooden tongs',ids:['MakeCrudeWoodenTongs'],note:'Good enough for all the early forge recipes.'},
@@ -610,7 +610,7 @@ const METAL=[
  ]},
 ];
 const BLOCKERS=[
-  ['Iron ore isn\'t meant to spawn on the main map. Use the sandbox setting.','still true'],
+  ['Iron ore isn\'t meant to spawn on the main map.','still true: get lucky foraging it, or mod it in'],
   ['No smithing recipe for wire.','partly fixed: strip it from barbed wire'],
   ['Nails block pottery.','until you forge your own at the primitive forge (Blacksmithing 1)'],
   ['Nails block access to hides.','same: forge nails at the primitive forge'],
