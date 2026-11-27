@@ -111,6 +111,11 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 .legend p{margin:0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .legend img{width:18px;height:18px;image-rendering:pixelated}
 .legend .cav{color:var(--warn)}
+.hdr-r{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.twitch{display:inline-flex;align-items:center;gap:6px;font:600 12px var(--body);text-transform:uppercase;letter-spacing:.05em;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:6px 10px}
+.twitch:hover{border-color:var(--accent)}
+.twitch:focus-visible{outline:2px solid var(--accent)}
+.twitch .dot{width:8px;height:8px;border-radius:50%;background:#9146FF}
 .foot{border-top:1px solid var(--line);padding-top:14px;font-size:12.5px;color:var(--muted);display:grid;gap:6px;max-width:80ch}
 .foot a{color:var(--accent)}
 @media (max-width:520px){.grid{grid-template-columns:1fr}.grid dt{padding-top:6px}}
@@ -123,8 +128,11 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
     <h1>The Bonzy Almanac</h1>
     <p class="sub">Project Zomboid Build 42 recipes, read straight from the game's script files (export of 1 Nov 2026). Search what you can learn and how, or build a character and see everything they can make.</p>
    </div>
+   <div class="hdr-r">
+   <a class="twitch" href="https://www.twitch.tv/sogoodbonzy" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>twitch.tv/sogoodbonzy</a>
    <div class="theme" role="group" aria-label="Colour theme">
     <button type="button" data-mode="auto">Auto</button><button type="button" data-mode="light">Light</button><button type="button" data-mode="dark">Dark</button>
+   </div>
    </div>
   </header>
   <div class="legend">
@@ -175,6 +183,7 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 
   <footer class="foot">
     <p style="margin:0"><b>AI disclosure:</b> this page was built with Claude (Anthropic). Claude wrote the parser that pulls the recipe data out of the game's script and translation files and wrote the page code, working from BonSAI0t's prompts and corrections. The data comes straight from the game files, but the research rules and starting skill levels are inferred, so check in game before relying on them.</p>
+    <p style="margin:0">Made by BonSAI0t. Catch the streams at <a href="https://www.twitch.tv/sogoodbonzy" target="_blank" rel="noopener">twitch.tv/sogoodbonzy</a>.</p>
     <p style="margin:0">Page code © 2026 BonSAI0t, <a href="https://opensource.org/license/mit" rel="noopener">MIT License</a>. Recipe data, names and the Inventive trait icon come from Project Zomboid game files, © The Indie Stone, and are not covered by that license. This is a fan project, not affiliated with or endorsed by The Indie Stone.</p>
   </footer>
 </div>

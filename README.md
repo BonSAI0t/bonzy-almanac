@@ -4,6 +4,8 @@ Every Project Zomboid (Build 42) recipe that has to be learned, and every way to
 
 Live: https://bonsai0t.github.io/bonzy-almanac/
 
+Streams: https://www.twitch.tv/sogoodbonzy
+
 ## AI disclosure
 
 Built with Claude (Anthropic). Claude wrote the parser that pulls the recipe data out of the game's `media/scripts/generated` files and wrote the page code, working from BonSAI0t's prompts and corrections. The data comes straight from the scripts, but the research rules (researching a recipe from its own output item, and the default research level) are inferred, so check in game before relying on them.
