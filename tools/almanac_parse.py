@@ -56,8 +56,8 @@ def finish(b,stack,rel):
         r=recipes.setdefault(name,{'id':name,'kind':kind,'file':rel})
         r.update(k); r['in']=b['in']; r['out']=b['out']
     elif h[0]=='item' and len(h)==2: items[h[1]]=k
-    elif h[0]=='character_profession_definition': profs[h[1]]=k
-    elif h[0]=='character_trait_definition': traits[h[1]]=k
+    elif h[0]=='character_profession_definition': profs[' '.join(h[1:])]=k
+    elif h[0]=='character_trait_definition': traits[' '.join(h[1:])]=k
 for dp,_,fs in os.walk(GEN):
     for f in fs:
         if f.endswith('.txt'): parse(os.path.join(dp,f))
