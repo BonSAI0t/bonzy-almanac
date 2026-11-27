@@ -252,7 +252,7 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 
   <section id="page-metal" class="page" hidden>
     <div class="mhead">
-      <p class="note">The route from nothing to an advanced forge, based on <b>Retanaru</b>'s Build 42.8.1 Metalworking Tech Tree (<a href="https://www.twitch.tv/retanaru" target="_blank" rel="noopener">twitch.tv/retanaru</a>, video guide at <a href="https://www.youtube.com/@Retanaru" target="_blank" rel="noopener">youtube.com/@Retanaru</a>). Recipes, skills and components below are read live from the current game files (1 Nov 2026), and anything that's changed since 42.8.1 is flagged. It assumes you craft most things; looting lets you skip a lot. Some recipes may have easier alternatives now.</p>
+      <p class="note">The route from nothing to an advanced forge, based on <b>Retanaru</b>'s Build 42.8.1 Metalworking Tech Tree and his video guide <a href="https://www.youtube.com/watch?v=MElOC7Krygc" target="_blank" rel="noopener">From Stone To Steel In B42.8.1</a> (<a href="https://www.twitch.tv/retanaru" target="_blank" rel="noopener">twitch.tv/retanaru</a> · <a href="https://www.youtube.com/@Retanaru" target="_blank" rel="noopener">youtube.com/@Retanaru</a>). Recipes, skills and components below are read live from the current game files (1 Nov 2026), and anything that's changed since 42.8.1 is flagged. It assumes you craft most things; looting lets you skip a lot. Some recipes may have easier alternatives now.</p>
       <label class="lbl" for="mq" style="min-width:240px">Filter steps<input id="mq" type="search" placeholder="nails, crucible, leather…" autocomplete="off"></label>
     </div>
     <div class="blk"><b>Progression blockers</b> (from 42.8.1, with current status)<ol id="blockers"></ol></div>
@@ -545,10 +545,10 @@ $('#home').addEventListener('click',e=>{e.preventDefault();resetAll();
   if(location.hash!=='#recipes')history.pushState(null,'','#recipes');route();window.scrollTo({top:0})});
 /* ---------- credits ---------- */
 const CREDITS=[
-  {name:'Retanaru',twitch:'retanaru',ideas:['Clicking the book logo takes you back to the start','The Metalworking path (his Build 42.8.1 Metalworking Tech Tree, plus corrections)']},
+  {name:'Retanaru',twitch:'retanaru',youtube:'@Retanaru',ideas:['Clicking the book logo takes you back to the start',{text:'The Metalworking path, from his Build 42.8.1 Metalworking Tech Tree and video ',link:'https://www.youtube.com/watch?v=MElOC7Krygc',label:'From Stone To Steel In B42.8.1',after:', plus corrections'}]},
 ];
 function renderCredits(){
-  $('#creditlist').innerHTML=CREDITS.map(c=>`<article class="credit"><div class="who"><b>${esc(c.name)}</b>${c.twitch?`<a href="https://www.twitch.tv/${encodeURIComponent(c.twitch)}" target="_blank" rel="noopener">twitch.tv/${esc(c.twitch)}</a><span class="lv${LIVE[c.twitch.toLowerCase()]?' on':''}" data-live="${esc(c.twitch.toLowerCase())}"><i></i>${LIVE[c.twitch.toLowerCase()]?'Live now':'Offline'}</span>`:''}</div><ul>${c.ideas.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></article>`).join('');
+  $('#creditlist').innerHTML=CREDITS.map(c=>`<article class="credit"><div class="who"><b>${esc(c.name)}</b>${c.twitch?`<a href="https://www.twitch.tv/${encodeURIComponent(c.twitch)}" target="_blank" rel="noopener">twitch.tv/${esc(c.twitch)}</a><span class="lv${LIVE[c.twitch.toLowerCase()]?' on':''}" data-live="${esc(c.twitch.toLowerCase())}"><i></i>${LIVE[c.twitch.toLowerCase()]?'Live now':'Offline'}</span>`:''}${c.youtube?`<a href="https://www.youtube.com/${esc(c.youtube)}" target="_blank" rel="noopener">youtube.com/${esc(c.youtube)}</a>`:''}</div><ul>${c.ideas.map(i=>typeof i==='string'?`<li>${esc(i)}</li>`:`<li>${esc(i.text)}<a href="${esc(i.link)}" target="_blank" rel="noopener" style="font:inherit">${esc(i.label)}</a>${esc(i.after||'')}</li>`).join('')}</ul></article>`).join('');
 }
 /* ---------- metalworking path (after Retanaru's B42.8.1 tech tree, checked against current files) ---------- */
 const METAL=[
