@@ -121,10 +121,10 @@ details.comp[open]>summary::before{transform:rotate(90deg)}
 .k{font:600 10.5px var(--mono);background:var(--chip);color:var(--muted);border-radius:3px;padding:0 4px;margin-left:4px}
 .flags{font-size:11.5px;color:var(--muted)}
 /* builder */
-.builder{display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:18px;align-items:start}
+.builder{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start}
 @media (max-width:820px){.builder{grid-template-columns:1fr}}
-.side{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;display:grid;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);max-height:calc(100vh - 24px);overflow:auto}
-@media (max-width:820px){.side{position:static;max-height:none}}
+.side{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;display:grid;gap:14px;min-width:0}
+
 .traits{display:grid;gap:2px}
 .trait,.skillgrid,.points{text-transform:none;letter-spacing:0;color:var(--ink)}
 .trait{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:4px 6px;border-radius:4px;font-size:13px;cursor:pointer}
@@ -227,8 +227,17 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 .credit .who .lv{display:inline-flex;align-items:center;gap:5px;font:600 11px var(--body);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .credit .who .lv i{width:8px;height:8px;border-radius:50%;background:var(--line)}
 .credit .who .lv.on{color:#2EC25B}.credit .who .lv.on i{background:#2EC25B}
-.sidetop{position:sticky;top:-12px;z-index:1;background:var(--panel);margin:-12px -12px 0;padding:12px;border-bottom:1px solid var(--line);display:grid;gap:10px}
-.sidetop .points{border-top:0;padding-top:0}
+.sidetop{position:sticky;top:0;z-index:6;background:var(--panel);margin:-12px -12px 0;padding:12px;border-bottom:1px solid var(--line);border-radius:6px 6px 0 0;display:grid;gap:10px 16px;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto auto;align-items:end}
+.sidetop .points{flex-direction:column;align-items:flex-end;gap:0;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);min-width:110px}
+.sidetop .points b{font-size:24px;line-height:1.1;color:var(--ink)}
+.sidetop .sharebtns{padding-bottom:2px}
+.sidetop .info .tip{left:auto;right:0;width:min(440px,calc(100vw - 32px))}
+.cgrid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+.tcols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.tcols .traits{max-height:440px}
+@media (max-width:980px){.sidetop{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.cgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.cgrid .share{grid-column:1/-1}}
+@media (max-width:620px){.sidetop{position:static;grid-template-columns:minmax(0,1fr)}.sidetop .points{flex-direction:row;justify-content:space-between;align-items:baseline}.cgrid,.tcols{grid-template-columns:minmax(0,1fr)}.tcols .traits{max-height:300px}}
+.sidetop .points{border-top:0;padding-top:0;display:flex}
 .share{display:grid;gap:6px}
 .share input[readonly]{font:11.5px var(--mono);color:var(--muted)}
 .sharebtns{display:flex;gap:6px;align-items:center;flex-wrap:wrap;position:relative}
@@ -256,6 +265,10 @@ a.home:hover img{transform:translateY(-2px) rotate(-3deg)}
 .tsh.pos{color:var(--ok)}.tsh.neg{color:var(--neg)}
 .tsec .traits{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:4px;padding:2px}
 .trait.pos span:nth-child(2){color:var(--ok)}
+.trait .tdesc{display:none;font-size:11.5px;color:var(--muted);margin-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tcols .trait span:nth-child(2){display:flex;min-width:0;align-items:baseline}
+.tcols .trait .tnm{flex:none;white-space:nowrap}
+@media (min-width:981px){.tcols .trait .tdesc{display:block;min-width:0}}
 .trait.neg span:nth-child(2){color:var(--neg)}
 .trait.pos .cost{color:var(--ok)}
 .trait.neg .cost{color:var(--neg)}
@@ -399,25 +412,29 @@ details.blk[open] summary{margin-bottom:4px}
           <label class="lbl" for="bname"><span data-i18n="b.name">Build name</span><input id="bname" type="text" maxlength="60" data-i18n-ph="b.namePh" placeholder="e.g. ZTH Blacksmith" autocomplete="off"></label>
           <label class="lbl" for="prof"><span data-i18n="b.occ">Occupation</span><select id="prof"></select></label>
           <div class="points"><span data-i18n="b.points">Points to spend</span><b id="pts">0</b></div>
+          <div class="sharebtns">
+            <button class="btn" id="bcopy" type="button" data-i18n="b.copy">Copy build line</button>
+            <span class="info" tabindex="0" aria-describedby="infotip">i<span class="tip" id="infotip" role="tooltip" data-i18n-html="b.info"></span></span>
+            <button class="btn" id="reset" type="button" data-i18n="b.clear">Clear traits</button>
+          </div>
+        </div>
+        <div class="cgrid">
           <div class="share">
             <input id="bline" type="text" readonly data-i18n-aria="b.lineAria" aria-label="Build line for saved_builds.txt">
-            <div class="sharebtns">
-              <button class="btn" id="bcopy" type="button" data-i18n="b.copy">Copy build line</button>
-              <span class="info" tabindex="0" aria-describedby="infotip">i<span class="tip" id="infotip" role="tooltip" data-i18n-html="b.info"></span></span>
-              <button class="btn" id="reset" type="button" data-i18n="b.clear">Clear traits</button>
-            </div>
             <details class="imp"><summary><span data-i18n="b.load">Load a build line</span> <span class="info" tabindex="0" aria-describedby="infotip2" onclick="event.preventDefault()">i<span class="tip" id="infotip2" role="tooltip" data-i18n-html="b.info2"></span></span></summary>
               <input id="bimport" type="text" data-i18n-ph="b.importPh" placeholder="Paste a line from saved_builds.txt" autocomplete="off">
               <button class="btn" id="bload" type="button" data-i18n="b.loadBtn">Load</button>
               <p class="alt" id="bmsg"></p>
             </details>
           </div>
+          <div class="lbl"><span data-i18n="b.chosen">Chosen traits</span><div class="chosen" id="chosen"></div></div>
+          <div class="lbl"><span data-i18n="b.start">Starting skills</span><div class="skillgrid" id="startsk"></div></div>
         </div>
-        <div class="lbl"><span data-i18n="b.chosen">Chosen traits</span><div class="chosen" id="chosen"></div></div>
-        <div class="lbl"><span data-i18n="b.start">Starting skills</span><div class="skillgrid" id="startsk"></div></div>
         <input id="tq" type="search" data-i18n-ph="b.filterPh" placeholder="Filter traits…" autocomplete="off" data-i18n-aria="b.filterPh" aria-label="Filter traits">
-        <div class="tsec"><div class="tsh pos"><span data-i18n="b.pos">Positive traits</span> <small data-i18n="b.posSub">cost points</small></div><div class="traits" id="traits-pos"></div></div>
-        <div class="tsec"><div class="tsh neg"><span data-i18n="b.neg">Negative traits</span> <small data-i18n="b.negSub">give points</small></div><div class="traits" id="traits-neg"></div></div>
+        <div class="tcols">
+          <div class="tsec"><div class="tsh pos"><span data-i18n="b.pos">Positive traits</span> <small data-i18n="b.posSub">cost points</small></div><div class="traits" id="traits-pos"></div></div>
+          <div class="tsec"><div class="tsh neg"><span data-i18n="b.neg">Negative traits</span> <small data-i18n="b.negSub">give points</small></div><div class="traits" id="traits-neg"></div></div>
+        </div>
       </aside>
       <div class="out">
         <div class="controls" style="grid-template-columns:2fr 1fr">
@@ -825,8 +842,8 @@ function renderTraits(){
   list.sort((a,b)=>(chosen.has(b.id)-chosen.has(a.id))||(Math.abs(a.cost)-Math.abs(b.cost))||a.name.localeCompare(b.name));
   const row=t=>{const on=chosen.has(t.id),ex=!on&&excludedBy(t.id,active);
     const cl=['trait',t.cost>0?'pos':'neg',ex?'dis':''].join(' ');
-    const tip=esc(t.desc+(ex?` (${T('b.conflicts',{x:ex})})`:'')+(t.xp.length?' · '+t.xp.map(x=>SKN(x[0])+' +'+x[1]).join(', '):''));
-    return `<label class="${cl}" title="${tip}"><input type="checkbox" data-t="${t.id}" ${on?'checked':''} ${ex?'disabled':''}><span>${esc(t.name)}</span><span class="cost">${t.cost>0?'−':'+'}${Math.abs(t.cost)}</span></label>`};
+    const dsc=String(t.desc||'').replace(/<br\s*\/?>/gi,' · ');const tip=esc(dsc+(ex?` (${T('b.conflicts',{x:ex})})`:'')+(t.xp.length?' · '+t.xp.map(x=>SKN(x[0])+' +'+x[1]).join(', '):''));
+    return `<label class="${cl}" title="${tip}"><input type="checkbox" data-t="${t.id}" ${on?'checked':''} ${ex?'disabled':''}><span><span class="tnm">${esc(t.name)}</span><small class="tdesc">${esc(dsc)}</small></span><span class="cost">${t.cost>0?'−':'+'}${Math.abs(t.cost)}</span></label>`};
   $('#traits-pos').innerHTML=list.filter(t=>t.cost>0).map(row).join('')||`<p class="alt">${T('b.noneMatch')}</p>`;
   $('#traits-neg').innerHTML=list.filter(t=>t.cost<=0).map(row).join('')||`<p class="alt">${T('b.noneMatch')}</p>`;
   const chips=[...g].filter(id=>TRAIT[id]).map(id=>`<span class="chip job" title="${esc(T('b.fromJob'))}">${esc(TRAIT[id].name)}</span>`)
