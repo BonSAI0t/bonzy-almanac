@@ -1,45 +1,48 @@
+DONE
+====
 Metalworking path:
-Highlight path on mouseover not click
+- Highlight path on mouseover, not click
 
-Recipies tab:
-Next to each component:
-1 - icons showing things that are craftable, foragable, lootable, etc - based on obtaining method
-2 - clicking on a specific component should open up the recipie search for that component
-clicking a button to see all
-3 - stretch: button on each recipie that I can click that opens a crafting page that shows craft path, including the above icons showing craftable foragable lootable. Like the metalworking path.
-4 - Prioritize the thing that you search if the word is in the thing e.g.
-Steel Bar should show Cast Steel Bar, Cast Steel Bar from Iron, at the top - with a subtle green accent of some kind
+Recipes tab:
+- Icons next to each component and recipe name showing how to get it: craftable, lootable, forageable, farmable, from animals, from fishing
+- Clicking a component opens a recipe search for it
+- Craft path page: button on each recipe opens its craft path (like the metalworking path), with the same icons
+- Search ranking: recipes whose name or output matches go to the top with a subtle green accent (e.g. "Steel Bar" puts Cast Steel Bar and Cast Steel Bar from Iron first)
 
+Build a character:
+- Positive traits on the left, negative on the right, points pinned at the top
 
-Build a character page - make that better somehow, maybe negative traits on the right positive on the left?
-
-
-Other language translations
+Translations:
+- All 27 languages the game ships
 
 
-Foraging tab - enter name of thing - find foraging
-also what items are in specific categories
-Also the "special loot" bonus from stuff on floors - e.g. wood on floor finds sticks more often, stones etc same
+OPEN
+====
+Recipes tab:
+- "Clicking a button to see all" - needs clarifying: expand the full "Any of" list on a component, or show every recipe that uses/makes it?
 
 
+PARKED
+======
+Tips box (Loop):
+- Turn the Inventive / Caveat box into a rotating tip of the day. Waiting on tips.
 
-Loop:
-"Inventive trait icon: Inventive trait: auto-learn 1 level lower, research 2 levels lower
-
-Caveat: some recipes are missing sometimes, and I'm not sure why." - is that a random tip that's cool.
-
-It isn't - BUT WE SHOULD ADD IT!
+Book map links (bringr):
+- Link each book to the PZ map with the tiles overlay selected. Map site doesn't support URL links - need another method.
 
 
+AFTER 2.0 REWORK
+================
+Foraging tab:
+- Enter name of thing - find foraging
+- What items are in specific categories
+- "Special loot" bonus from stuff on floors (e.g. wood on floor finds sticks more often, stones etc same)
 
 bringr:
-- Link to the project zomboid map and with the tiles overlay selected for each book
 - Icons to the builds
-- genes or propane spawns
+- Genes or propane spawns
 - Full item list tab
 
-
-
-
-SoGoodBonzy: I'm thinking of like combat guides n shit as well
-SoGoodBonzy: like entire sections on "how" to play the game - with links to other peoples youtube videos
+SoGoodBonzy:
+- Combat guides
+- Sections on "how" to play the game, with links to other people's YouTube videos
